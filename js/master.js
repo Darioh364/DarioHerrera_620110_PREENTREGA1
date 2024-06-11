@@ -1,4 +1,3 @@
-
 // Declaracion de variables
 
 let equipoLocal, equipoVisitante, saque, primerSaque, auxPosLocal, auxPosVisitante, saqueActual, diferenciaPuntos,equipoSaque;
@@ -33,24 +32,28 @@ function puntosYRotacion(punto){
     if (punto === "L") {
         puntajeLocal++;
         if (saqueActual === 2){
-            for (let j = 0; j < 5; j++) {
-                auxPosLocal = posicionEquipoLocal[j];
+            auxPosLocal = posicionEquipoLocal[0];
+            for (let j = 0; j <= 4; j++) {        
                 posicionEquipoLocal[j] = posicionEquipoLocal [j+1];
                 numSaqueActual = posicionEquipoLocal[0];
+                equipoSaque = equipoLocal;
             }
             posicionEquipoLocal[5] = auxPosLocal;
             saqueActual = 1;
+            equipoSaque = equipoLocal;
         }
     } else if (punto === "V") {
         puntajeVisitante++;
         if (saqueActual === 1){
-            for (let k = 0; k < 5; k++) {
-                auxPosVisitante = posicionEquipoVisitante[k];
+            auxPosVisitante = posicionEquipoVisitante[0];
+            for (let k = 0; k <= 4; k++) {
                 posicionEquipoVisitante[k] = posicionEquipoVisitante [k+1];
                 numSaqueActual = posicionEquipoVisitante[0];
+                equipoSaque = equipoVisitante;
             }
             posicionEquipoVisitante[5] = auxPosVisitante;
             saqueActual = 2;
+            equipoSaque = equipoVisitante;
         }
     }
     diferenciaPuntos = puntajeLocal - puntajeVisitante;
@@ -66,7 +69,7 @@ function ganador(a, b){
     }
 }
 
-//Comienzo del progama
+//Comienzo del progama:
 
 alert("Bienvenido a tu asistente de planillero preferido");
 alert("Por favor, sigue las instrucciones para setear correctamente el inicio del partido");
@@ -90,12 +93,13 @@ alert("COMIENZA EL PARTIDO, va al saque el jugador numero " + numSaqueActual + "
 
 // Definimos la cantidad de puntos para que terimne el set
 while (((puntajeLocal < 5) && (puntajeVisitante < 5)) || (diferenciaPuntos < 2 )) {
-    alert(`Puntaje actual:\n${equipoLocal}: ${puntajeLocal}\n${equipoVisitante}: ${puntajeVisitante}\n Va al saque el jugador numero: ${numSaqueActual}`);
+    alert(`Puntaje actual:\n${equipoLocal}: ${puntajeLocal}\n${equipoVisitante}: ${puntajeVisitante}\n Va al saque el jugador numero: ${numSaqueActual} del equipo ${equipoSaque}`);
     punto = prompt("Para quien fue el punto? L o V (local o visitante)"); 
     puntosYRotacion(punto);
 }
 ganador(puntajeLocal, puntajeVisitante);
-alert(`Puntaje final:\n${equipoLocal}: ${puntajeLocal}\n${equipoVisitante}: ${puntajeVisitante}`);
+alert(`Puntaje final:\n ${equipoLocal}: ${puntajeLocal}\n ${equipoVisitante}: ${puntajeVisitante}\n Posiciones finales:\n ${equipoLocal} [1-2-3-4-5-6]: ${posicionEquipoLocal[0]}, ${posicionEquipoLocal[1]} ,${posicionEquipoLocal[2]} ,${posicionEquipoLocal[3]} ,${posicionEquipoLocal[4]} ,${posicionEquipoLocal[5]} \n ${equipoVisitante} [1-2-3-4-5-6]: ${posicionEquipoVisitante[0]}, ${posicionEquipoVisitante[1]} ,${posicionEquipoVisitante[2]} ,${posicionEquipoVisitante[3]} ,${posicionEquipoVisitante[4]} ,${posicionEquipoVisitante[5]} `);
+
 
 
 

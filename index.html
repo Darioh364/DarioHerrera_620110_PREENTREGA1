@@ -14,13 +14,13 @@
         <div>
             <div class="row d-flex align-items-center">
                 <div class="col-4 d-flex justify-content-center equipo">
-                    <h6>Equipo Local</h6>
+                    <h6 id="nombre_Equipo_Local_Let">Equipo Local</h6>
                 </div>
                 <div class="col-4 d-flex justify-content-center">
                     <h1>Planillero de voley</h1>
                 </div>
                 <div class="col-4  d-flex justify-content-center equipo">
-                    <h6>Equipo Visitante</h6>
+                    <h6 id="nombre_Equipo_Visitante_Let">Equipo Visitante</h6>
                 </div>
             </div>
             <div class="row">
@@ -32,39 +32,39 @@
                         </div>
                         <ul class="list-group list-group-flush">
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_1" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_2" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_3" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_4" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_5" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                           <li class="list-group-item">
-                            <input type="text" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
+                            <input type="number" id="pos_Local_6" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
                           </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-4 d-flex justify-content-center flex-column">
                     <div class="row py-3 puntaje">
-                        <h4 class="col-3 text-center">15</h4>
-                        <h4 class="col-6 text-center"> Puntaje</h4>
-                        <h4 class="col-3 text-center">5</h4>
+                        <h4 class="col-3 text-center" id="puntaje_Local">-</h4>
+                        <h4 class="col-6 text-center">Puntaje</h4>
+                        <h4 class="col-3 text-center" id="puntaje_Visitante">-</h4>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center py-5">
-                        <button type="button" class="btn btn-secondary col-3">Local</button>
-                        <h4 class="col-6 text-center">¿Punto para?</h4>
-                        <button type="button" class="btn btn-secondary col-3">Visitante</button>
+                        <button type="button" class="btn btn-secondary col-3" id="boton_Saque_Local">Local</button>
+                        <h4 class="col-6 text-center" id="msj_Centro">¿Quien saca?</h4>
+                        <button type="button" class="btn btn-secondary col-3" id="boton_Saque_Visitante">Visitante</button>
                     </div>
-                    <div class="row d-flex justify-content-center py-1">
-                        <button type="button" class="btn btn-success col-4">Empezar</button>
+                    <div class="row d-flex justify-content-center py-1" id="boton_Empezar_Block">
+                        <button type="button" class="btn btn-success col-4" id="boton_Empezar">Empezar</button>
                     </div>
                 </div>
                 <div class="col-4 d-flex justify-content-center">
@@ -75,22 +75,22 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_1" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_2" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_3" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_4" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_5" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="text" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
+                              <input type="number" id="pos_Visitante_6" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                           </ul>
                     </div>
@@ -100,15 +100,15 @@
                 <div class=" col-4">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Nombre:</span>
-                        <input type="text" class="form-control" placeholder="Argentina" aria-label="Argentina" aria-describedby="basic-addon1">
-                        <button type="button" class="btn btn-success">Guardar</button>
+                        <input type="text" class="form-control" placeholder="Argentina" aria-label="Argentina" aria-describedby="basic-addon1" id="nombre_Equipo_Local">
+                        <button type="button" class="btn btn-success" id="guardarLocal">Guardar</button>
                     </div>
                 </div>
                 <div class="offset-4 col-4">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Nombre:</span>
-                        <input type="text" class="form-control" placeholder="Brasil" aria-label="Brasil" aria-describedby="basic-addon1">
-                        <button type="button" class="btn btn-success">Guardar</button>
+                        <input type="text" class="form-control" placeholder="Brasil" aria-label="Brasil" aria-describedby="basic-addon1" id="nombre_Equipo_Visitante">
+                        <button type="button" class="btn btn-success" id="guardarVisitante">Guardar</button>
                       </div>
                 </div>
             </div>
@@ -116,6 +116,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- <script src="js/master.js"></script -->
+    <script src="js/master.js"></script 
 </body>
 </html>

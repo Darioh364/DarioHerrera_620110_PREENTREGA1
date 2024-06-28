@@ -1,107 +1,98 @@
-// Declaracion de variables
+let equipoLocal = "";
+let equipoVisitante = "";
 
-let equipoLocal, equipoVisitante, saque, primerSaque, auxPosLocal, auxPosVisitante, saqueActual, diferenciaPuntos,equipoSaque;
-let puntajeLocal = 0;
-let puntajeVisitante = 0;
-let posicionEquipoLocal = new Array(6);
-let posicionEquipoVisitante = new Array(6); 
 
-//Declaracion de :
-//Funcion para cargar posiciones
-function cargarArray(array, equipo) {
-    for (let i = 0; i < 6; i++) {
-        array[i] = prompt(`Ingrese el número de jugador para la posición ${i + 1} del equipo ${equipo}:`);
+
+
+// Obtengo los Datos del equipo Local
+document.getElementById('guardarLocal').addEventListener('click', function() {
+    let posicionesLocal = [];
+    equipoLocal = document.getElementById('nombre_Equipo_Local').value;
+    
+
+    // Obtener los valores de los inputs y almacenarlos en el array
+    for (let i = 1; i <= 6; i++) {
+        let valor_Local = document.getElementById(`pos_Local_${i}`).value;
+        posicionesLocal.push(parseInt(valor_Local)); // Convertir a entero y agregar al array
     }
-}
 
-//Funcion para asiganar el saque
-function saque_1(saque){
-    if (saque === "L") {
-        equipoSaque = equipoLocal;
-        numSaqueActual = posicionEquipoLocal[0];
-        saqueActual = 1;
-    } else if (saque === "V") {
-        equipoSaque = equipoVisitante;
-        numSaqueActual = posicionEquipoVisitante[0];
-        saqueActual = 2;
+    console.log(posicionesLocal); 
+    console.log(equipoLocal); 
+});
+
+// Obtengo los Datos del equipo Local
+document.getElementById('guardarVisitante').addEventListener('click', function() {
+    let posicionesVisitante = [];
+    equipoVisitante = document.getElementById('nombre_Equipo_Visitante').value;
+
+    // Obtener los valores de los inputs y almacenarlos en el array
+    for (let i = 1; i <= 6; i++) {
+        let valor_Visitante = document.getElementById(`pos_Visitante_${i}`).value;
+        posicionesVisitante.push(parseInt(valor_Visitante)); // Convertir a entero y agregar al array
     }
-}
 
-//Funcion para cargar los puntos y las rotaciones
-function puntosYRotacion(punto){
-    if (punto === "L") {
-        puntajeLocal++;
-        if (saqueActual === 2){
-            auxPosLocal = posicionEquipoLocal[0];
-            for (let j = 0; j <= 4; j++) {        
-                posicionEquipoLocal[j] = posicionEquipoLocal [j+1];
-                numSaqueActual = posicionEquipoLocal[0];
-                equipoSaque = equipoLocal;
-            }
-            posicionEquipoLocal[5] = auxPosLocal;
-            saqueActual = 1;
-            equipoSaque = equipoLocal;
-        }
-    } else if (punto === "V") {
-        puntajeVisitante++;
-        if (saqueActual === 1){
-            auxPosVisitante = posicionEquipoVisitante[0];
-            for (let k = 0; k <= 4; k++) {
-                posicionEquipoVisitante[k] = posicionEquipoVisitante [k+1];
-                numSaqueActual = posicionEquipoVisitante[0];
-                equipoSaque = equipoVisitante;
-            }
-            posicionEquipoVisitante[5] = auxPosVisitante;
-            saqueActual = 2;
-            equipoSaque = equipoVisitante;
-        }
-    }
-    diferenciaPuntos = puntajeLocal - puntajeVisitante;
-    diferenciaPuntos = Math.abs(diferenciaPuntos);
-}
+    console.log(posicionesVisitante);
+    console.log(equipoVisitante);
+});
 
-//Funcion para declarar al ganador
-function ganador(a, b){
-    if (a > b){
-        alert("FIN DEL SET, Ganador el equipo: " + equipoLocal);
-    } else if (b > a){
-        alert("FIN DEL SET, Ganador el equipo: " + equipoVisitante);
-    }
-}
+//obtengo quien tiene el saque (Si se apreta el del local, se asigna al local... Si se aprieta el visitante, se asgina al visitante)
 
-//Comienzo del progama:
+document.getElementById('boton_Saque_Local').addEventListener('click', function() {
+    let botonSaqueLocal = document.getElementById('boton_Saque_Local');
 
-alert("Bienvenido a tu asistente de planillero preferido");
-alert("Por favor, sigue las instrucciones para setear correctamente el inicio del partido");
-alert("Comenzamos?");
-
-equipoLocal = prompt("Ingrese el nombre del equipo local: ");
-equipoVisitante = prompt("Ingrese el nombre del equipo visitante: ");
-
-console.log("Equipo Local:", equipoLocal);
-console.log("Equipo Visitante:", equipoVisitante);
-
-// Solicitar la posicion de los jugadores
-
-cargarArray(posicionEquipoLocal, 'local');
-cargarArray(posicionEquipoVisitante, 'visitante');
-
-// Definimos quien comienza sacando en el partido
-saque = prompt("¿Quien saca? L o V (local o visitante)");
-saque_1(saque);
-alert("COMIENZA EL PARTIDO, va al saque el jugador numero " + numSaqueActual + " del equipo: " + equipoSaque);
-
-// Definimos la cantidad de puntos para que terimne el set
-while (((puntajeLocal < 5) && (puntajeVisitante < 5)) || (diferenciaPuntos < 2 )) {
-    alert(`Puntaje actual:\n${equipoLocal}: ${puntajeLocal}\n${equipoVisitante}: ${puntajeVisitante}\n Va al saque el jugador numero: ${numSaqueActual} del equipo ${equipoSaque}`);
-    punto = prompt("Para quien fue el punto? L o V (local o visitante)"); 
-    puntosYRotacion(punto);
-}
-ganador(puntajeLocal, puntajeVisitante);
-alert(`Puntaje final:\n ${equipoLocal}: ${puntajeLocal}\n ${equipoVisitante}: ${puntajeVisitante}\n Posiciones finales:\n ${equipoLocal} [1-2-3-4-5-6]: ${posicionEquipoLocal[0]}, ${posicionEquipoLocal[1]} ,${posicionEquipoLocal[2]} ,${posicionEquipoLocal[3]} ,${posicionEquipoLocal[4]} ,${posicionEquipoLocal[5]} \n ${equipoVisitante} [1-2-3-4-5-6]: ${posicionEquipoVisitante[0]}, ${posicionEquipoVisitante[1]} ,${posicionEquipoVisitante[2]} ,${posicionEquipoVisitante[3]} ,${posicionEquipoVisitante[4]} ,${posicionEquipoVisitante[5]} `);
+    
+    botonSaqueLocal.classList.toggle('btn-secondary');
+    botonSaqueLocal.classList.toggle('btn-success');
+    let primer_saque = 1;
+    console.log(primer_saque);
+});
 
 
+document.getElementById('boton_Saque_Visitante').addEventListener('click',function(){
+    let botonSaqueVisitante = document.getElementById('boton_Saque_Visitante');
+
+    botonSaqueVisitante.classList.toggle('btn-secondary');
+    botonSaqueVisitante.classList.toggle('btn-success');
+    let primer_saque = 2;
+    console.log(primer_saque);
+
+})
 
 
+//Boton para empezar el partido
+document.getElementById('boton_Empezar').addEventListener('click',function(){
+
+    let contenido_Msj_Centro = document.getElementById('msj_Centro');
+    let puntaje_Local_Block = document.getElementById('puntaje_Local');
+    let puntaje_Visitante_Block = document.getElementById('puntaje_Visitante');
+    let boton_Empezar_Block = document.getElementById('boton_Empezar_Block');
+    let nombre_Equipo_Local_Block = document.getElementById('nombre_Equipo_Local_Let');
+    let nombre_Equipo_Visitante_Block = document.getElementById('nombre_Equipo_Visitante_Let');
 
 
+    puntaje_Local = 0;
+    puntaje_Visitante = 0;
+
+    contenido_Msj_Centro.innerHTML = `
+        <h4>¿Para quien fue punto?</h4>
+    `;
+
+    puntaje_Local_Block.innerHTML = `
+    <h4>${puntaje_Local}</h4>
+    `;
+
+    puntaje_Visitante_Block.innerHTML = `
+    <h4>${puntaje_Visitante}</h4>
+    `;
+
+    boton_Empezar_Block.innerHTML = ``;
+
+    nombre_Equipo_Local_Block.innerHTML = `
+    <h6>${equipoLocal}</h6>
+    `;
+
+    nombre_Equipo_Visitante_Block.innerHTML = `
+    <h6>${equipoVisitante}</h6>
+    `;
+
+});

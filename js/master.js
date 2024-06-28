@@ -1,5 +1,6 @@
 let equipoLocal = "";
 let equipoVisitante = "";
+let primer_saque = 0;
 
 
 
@@ -16,11 +17,25 @@ document.getElementById('guardarLocal').addEventListener('click', function() {
         posicionesLocal.push(parseInt(valor_Local)); // Convertir a entero y agregar al array
     }
 
+    let  boton_Guardar_Local = document.getElementById('guardarLocal');
+    boton_Guardar_Local.innerHTML =  `Guardado`;
+
+    // Deshabilitar los inputs y mostrar los valores almacenados
+    for (let i = 1; i <= 6; i++) {
+        let inputLocal = document.getElementById(`pos_Local_${i}`);
+        inputLocal.value = posicionesLocal[i - 1];
+        inputLocal.disabled = true;
+    }
+
+    document.getElementById('nombre_Equipo_Local').value = equipoLocal;
+    document.getElementById('nombre_Equipo_Local').disabled = true;
+
+
     console.log(posicionesLocal); 
     console.log(equipoLocal); 
 });
 
-// Obtengo los Datos del equipo Local
+// Obtengo los Datos del equipo Visitante
 document.getElementById('guardarVisitante').addEventListener('click', function() {
     let posicionesVisitante = [];
     equipoVisitante = document.getElementById('nombre_Equipo_Visitante').value;
@@ -30,6 +45,20 @@ document.getElementById('guardarVisitante').addEventListener('click', function()
         let valor_Visitante = document.getElementById(`pos_Visitante_${i}`).value;
         posicionesVisitante.push(parseInt(valor_Visitante)); // Convertir a entero y agregar al array
     }
+    // Cambia el estado del Boton para que Aparezca que los datos se guardaron
+    let  boton_Guardar_Visitante = document.getElementById('guardarVisitante');
+    boton_Guardar_Visitante.innerHTML =  `Guardado`;
+
+    // Deshabilitar los inputs y mostrar los valores almacenados
+    for (let i = 1; i <= 6; i++) {
+        let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
+        inputVisitante.value = posicionesVisitante[i - 1];
+        inputVisitante.disabled = true;
+    }
+    
+    document.getElementById('nombre_Equipo_Visitante').value = equipoVisitante;
+    document.getElementById('nombre_Equipo_Visitante').disabled = true;
+    
 
     console.log(posicionesVisitante);
     console.log(equipoVisitante);
@@ -43,7 +72,7 @@ document.getElementById('boton_Saque_Local').addEventListener('click', function(
     
     botonSaqueLocal.classList.toggle('btn-secondary');
     botonSaqueLocal.classList.toggle('btn-success');
-    let primer_saque = 1;
+    primer_saque = 1;
     console.log(primer_saque);
 });
 
@@ -53,11 +82,11 @@ document.getElementById('boton_Saque_Visitante').addEventListener('click',functi
 
     botonSaqueVisitante.classList.toggle('btn-secondary');
     botonSaqueVisitante.classList.toggle('btn-success');
-    let primer_saque = 2;
+    primer_saque = 2;
     console.log(primer_saque);
 
 })
-
+//---------------------------------------------------------------------------------------------------//
 
 //Boton para empezar el partido
 document.getElementById('boton_Empezar').addEventListener('click',function(){
@@ -94,5 +123,38 @@ document.getElementById('boton_Empezar').addEventListener('click',function(){
     nombre_Equipo_Visitante_Block.innerHTML = `
     <h6>${equipoVisitante}</h6>
     `;
+
+    // Marca con verde el jugador que arranca sacando  y pone en rojo todo el resto
+
+    if (primer_saque === 1) {
+        let inputLocal = document.getElementById(`pos_Local_1`);
+        inputLocal.classList.add('green-bg');
+        for (let i = 2; i <= 6; i++) {
+            let inputLocal = document.getElementById(`pos_Local_${i}`);
+            inputLocal.classList.add('red-bg');
+        }
+        for (let i = 1; i <= 6; i++) {
+            let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
+            inputVisitante.classList.add('red-bg');
+        }
+
+    } else if(primer_saque === 2) {
+        let inputVisitante = document.getElementById(`pos_Visitante_1`);
+        inputVisitante.classList.add('green-bg');
+        for (let i = 2; i <= 6; i++) {
+            let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
+            inputVisitante.classList.add('red-bg');
+        }
+        for (let i = 1; i <= 6; i++) {
+            let inputLocal = document.getElementById(`pos_Local_${i}`);
+            inputLocal.classList.add('red-bg');
+        }
+
+    }
+
+    
+
+
+
 
 });

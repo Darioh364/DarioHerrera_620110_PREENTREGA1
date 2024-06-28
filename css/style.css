@@ -16,6 +16,9 @@ body{
 .container{
     background-color: #FFCDD2;
 }
-.styleSaque{
-    background-color: red;
+.red-bg{
+    background-color: rgb(222, 80, 80) !important;
+}
+.green-bg{
+    background-color: rgb(75, 223, 75) !important;
 }

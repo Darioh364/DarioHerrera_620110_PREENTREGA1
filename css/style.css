@@ -82,3 +82,6 @@ body {
     max-height: 300px;
     overflow-y: auto;
 }
+#instrucciones_Box {
+    overflow-y: auto;
+}

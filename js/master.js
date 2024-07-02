@@ -20,29 +20,60 @@ document.getElementById('boton_Ver_Instrucciones').addEventListener('click', fun
 });
 
 
-
-
 // Obtengo los Datos del equipo Local
 document.getElementById('guardarLocal').addEventListener('click', function () {
 
+    let entrada_Vacia_Incorrecta_Numero = false;
+    let entradas_Iguales = false;
     equipoLocal = document.getElementById('nombre_Equipo_Local').value;
-    // Obtener los valores de los inputs y almacenarlos en el array
-    posicionesLocal = [];
+    let valores = new Set(); // Conjunto para almacenar valores únicos
+
     for (let i = 0; i <= 5; i++) {
-        let valor_Local = document.getElementById(`pos_Local_${i}`).value;
-        posicionesLocal.push(parseInt(valor_Local)); // Convertir a entero y agregar al array
+        let input = document.getElementById(`pos_Local_${i}`);
+        let value = input.value;
+
+        if (value === "" || isNaN(value) || equipoLocal === "") {
+            entrada_Vacia_Incorrecta_Numero = true;
+            break;
+        }
+
+        let valor_Pos = Number(value);
+        if (valores.has(valor_Pos)) {
+            entradas_Iguales = true;
+        } else {
+            valores.add(valor_Pos);
+        }
     }
 
-    let boton_Guardar_Local = document.getElementById('guardarLocal');
-    boton_Guardar_Local.innerHTML = `Guardado`;
+    if (entrada_Vacia_Incorrecta_Numero) {
+        document.getElementById('error_carga_Box').style.display = 'flex';
+        document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
+            document.getElementById('error_carga_Box').style.display = 'none';
+        });
+    } else if (entradas_Iguales) {
+        document.getElementById('datos_Iguales_Box').style.display = 'flex';
+        document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
+            document.getElementById('datos_Iguales_Box').style.display = 'none';
+        });
+    } else {
+        // Obtener los valores de los inputs y almacenarlos en el array
+        posicionesLocal = [];
+        for (let i = 0; i <= 5; i++) {
+            let valor_Local = document.getElementById(`pos_Local_${i}`).value;
+            posicionesLocal.push(parseInt(valor_Local)); // Convertir a entero y agregar al array
+        }
 
-    // Deshabilitar los inputs y mostrar los valores almacenados
-    for (let i = 0; i <= 5; i++) {
-        let inputLocal = document.getElementById(`pos_Local_${i}`);
-        inputLocal.disabled = true;
+        let boton_Guardar_Local = document.getElementById('guardarLocal');
+        boton_Guardar_Local.innerHTML = `Guardado`;
+
+        // Deshabilitar los inputs y mostrar los valores almacenados
+        for (let i = 0; i <= 5; i++) {
+            let inputLocal = document.getElementById(`pos_Local_${i}`);
+            inputLocal.disabled = true;
+        }
+        document.getElementById('nombre_Equipo_Local').value = equipoLocal;
+        document.getElementById('nombre_Equipo_Local').disabled = true;
     }
-    document.getElementById('nombre_Equipo_Local').value = equipoLocal;
-    document.getElementById('nombre_Equipo_Local').disabled = true;
 
 
 });
@@ -50,26 +81,58 @@ document.getElementById('guardarLocal').addEventListener('click', function () {
 // Obtengo los Datos del equipo Visitante
 document.getElementById('guardarVisitante').addEventListener('click', function () {
 
+    let entrada_Vacia_Incorrecta_Numero = false;
+    let entradas_Iguales = false;
     equipoVisitante = document.getElementById('nombre_Equipo_Visitante').value;
+    let valores = new Set(); // Conjunto para almacenar valores únicos
 
-    // Obtener los valores de los inputs y almacenarlos en el array
-    posicionesVisitante = [];
     for (let i = 0; i <= 5; i++) {
-        let valor_Visitante = document.getElementById(`pos_Visitante_${i}`).value;
-        posicionesVisitante.push(parseInt(valor_Visitante)); // Convertir a entero y agregar al array
+        let input = document.getElementById(`pos_Visitante_${i}`);
+        let value = input.value;
+
+        if (value === "" || isNaN(value) || equipoVisitante === "") {
+            entrada_Vacia_Incorrecta_Numero = true;
+            break;
+        }
+
+        let valor_Pos = Number(value);
+        if (valores.has(valor_Pos)) {
+            entradas_Iguales = true;
+        } else {
+            valores.add(valor_Pos);
+        }
     }
 
-    // Cambia el estado del Boton para que Aparezca que los datos se guardaron
-    let boton_Guardar_Visitante = document.getElementById('guardarVisitante');
-    boton_Guardar_Visitante.innerHTML = `Guardado`;
+    if (entrada_Vacia_Incorrecta_Numero) {
+        document.getElementById('error_carga_Box').style.display = 'flex';
+        document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
+            document.getElementById('error_carga_Box').style.display = 'none';
+        });
+    } else if (entradas_Iguales) {
+        document.getElementById('datos_Iguales_Box').style.display = 'flex';
+        document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
+            document.getElementById('datos_Iguales_Box').style.display = 'none';
+        });
+    } else {
+        // Obtener los valores de los inputs y almacenarlos en el array
+        posicionesVisitante = [];
+        for (let i = 0; i <= 5; i++) {
+            let valor_Visitante = document.getElementById(`pos_Visitante_${i}`).value;
+            posicionesVisitante.push(parseInt(valor_Visitante)); // Convertir a entero y agregar al array
+        }
 
-    // Deshabilitar los inputs y mostrar los valores almacenados
-    for (let i = 0; i <= 5; i++) {
-        let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
-        inputVisitante.disabled = true;
+        // Cambia el estado del Botón para que aparezca que los datos se guardaron
+        let boton_Guardar_Visitante = document.getElementById('guardarVisitante');
+        boton_Guardar_Visitante.innerHTML = `Guardado`;
+
+        // Deshabilitar los inputs y mostrar los valores almacenados
+        for (let i = 0; i <= 5; i++) {
+            let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
+            inputVisitante.disabled = true;
+        }
+        document.getElementById('nombre_Equipo_Visitante').value = equipoVisitante;
+        document.getElementById('nombre_Equipo_Visitante').disabled = true;
     }
-    document.getElementById('nombre_Equipo_Visitante').value = equipoVisitante;
-    document.getElementById('nombre_Equipo_Visitante').disabled = true;
 
 });
 
@@ -133,7 +196,6 @@ document.getElementById('boton_Borrar_Historial').addEventListener('click', func
 
 
 });
-
 // Función para mostrar el cuadro de diálogo con el historial
 function mostrarHistorial() {
     let historial = obtenerHistorialPartidos();

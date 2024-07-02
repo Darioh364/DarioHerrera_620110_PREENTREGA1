@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--boostrap-->
+    <title>Planillero Voley</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <title>Planillero Voley</title>
 </head>
-
 <body>
     <div class="container">
         <div>
@@ -19,7 +18,7 @@
                 <div class="col-4 d-flex justify-content-center">
                     <h1>Planillero de voley</h1>
                 </div>
-                <div class="col-4  d-flex justify-content-center equipo">
+                <div class="col-4 d-flex justify-content-center equipo">
                     <h6 id="nombre_Equipo_Visitante_Let">Equipo Visitante</h6>
                 </div>
             </div>
@@ -28,43 +27,52 @@
                     <div class="card" style="width: 12rem;">
                         <img src="img/zonas.png" class="card-img-top" alt="...">
                         <div class="d-flex justify-content-center">
-                          <h6>Cargar posiciones:</h6>
+                            <h6>Cargar posiciones:</h6>
                         </div>
                         <ul class="list-group list-group-flush">
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_0" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_1" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_2" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_3" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_4" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
-                          <li class="list-group-item">
-                            <input type="number" id="pos_Local_5" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
-                          </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_0" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_1" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_2" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_3" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_4" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="number" id="pos_Local_5" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-4 d-flex justify-content-center flex-column">
+                    <div id="boton_Ver_Historial_Block">
+                        <button type="button" class="btn btn-danger col-12" id="boton_Ver_Instrucciones">Ver Instrucciones</button>
+                    </div>
+                    <div id="boton_Ver_Historial_Block" class="pt-3">
+                        <button type="button" class="btn btn-secondary col-12" id="boton_Ver_Historial">Ver historial</button>
+                    </div>
+                    <div id="boton_Borrar_Historial_Block" class="py-3">
+                        <button type="button" class="btn btn-secondary col-12" id="boton_Borrar_Historial">Borrar historial</button>
+                    </div>
                     <div class="row py-3 puntaje">
-                        <h4 class="col-3 text-center" id="puntaje_Local">-</h4>
-                        <h4 class="col-6 text-center">Puntaje</h4>
-                        <h4 class="col-3 text-center" id="puntaje_Visitante">-</h4>
+                        <h4 class="col-12 text-center">Puntaje</h4>
+                        <h4 class="col-6 text-center" id="puntaje_Local">-</h4>
+                        <h4 class="col-6 text-center" id="puntaje_Visitante">-</h4>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center py-5">
-                        <button type="button" class="btn btn-secondary col-3" id="boton_Saque_Local">Local</button>
-                        <h4 class="col-6 text-center" id="msj_Centro">¿Quien saca?</h4>
-                        <button type="button" class="btn btn-secondary col-3" id="boton_Saque_Visitante">Visitante</button>
+                        <button type="button" class="btn btn-secondary col-md-3 col-12" id="boton_Saque_Local">Local</button>
+                        <h4 class="col-12 col-md-6 text-center" id="msj_Centro">¿Quien saca?</h4>
+                        <button type="button" class="btn btn-secondary col-md-3 col-12" id="boton_Saque_Visitante">Visitante</button>
                     </div>
                     <div class="row d-flex justify-content-center py-1" id="boton_Empezar_Block">
-                        <button type="button" class="btn btn-success col-4" id="boton_Empezar">Empezar</button>
+                        <button type="button" class="btn btn-success col-md-4 col-12" id="boton_Empezar">Empezar</button>
                     </div>
                 </div>
                 <div class="col-4 d-flex justify-content-center">
@@ -75,24 +83,24 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_0" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_0" class="form-control" placeholder="1:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_1" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_1" class="form-control" placeholder="2:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_2" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_2" class="form-control" placeholder="3:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_3" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_3" class="form-control" placeholder="4:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_4" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_4" class="form-control" placeholder="5:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
                             <li class="list-group-item">
-                              <input type="number" id="pos_Visitante_5" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
+                                <input type="number" id="pos_Visitante_5" class="form-control" placeholder="6:" aria-label="Local" aria-describedby="basic-addon1">
                             </li>
-                          </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -109,13 +117,90 @@
                         <span class="input-group-text" id="basic-addon1">Nombre:</span>
                         <input type="text" class="form-control" placeholder="Brasil" aria-label="Brasil" aria-describedby="basic-addon1" id="nombre_Equipo_Visitante">
                         <button type="button" class="btn btn-success" id="guardarVisitante">Guardar</button>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Cuadro de dialogo para mostrar el historial -->
+    <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-box" id="historial_Box">
+            <h2>Historial guardado de partidos</h2>
+            <div id="historialContenido"></div>
+            <button id="boton_Cerrar_Historial">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para mostrar el ganador del partido -->
+    <div class="dialog-overlay" id="ganadorPartido_Box">
+        <div class="dialog-box">
+            <h2>¡Fin del Partido!</h2>
+            <div id="ganadorPartido"></div>
+            <button id="boton_Cerrar_ganadorPartido">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para guardar los datos del partido -->
+    <div class="dialog-overlay" id="guardar_Datos_Box">
+        <div class="dialog-box">
+            <div id="caja_Guardar_Datos">
+                <h2>¡Ingrese los datos del partido!</h2>
+                <label for="Nombre del partido">Nombre del partido</label>
+                <input type="text" id="nombre_Del_Partido" class="form-control" placeholder="Argentina-Brasil:" aria-label="Local" aria-describedby="basic-addon1">
+                <label for="Fecha del partido">Fecha del partido</label>
+                <input type="text" id="fecha_Del_Partido" class="form-control" placeholder="15-05-2000" aria-label="Local" aria-describedby="basic-addon1">
+                <button id="boton_Cerrar_GuardarDatosPartido">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para error en el guardado de datos -->
+    <div class="dialog-overlay" id="error_Datos_Box">
+        <div class="dialog-box">
+            <div id="error_Guardar_Datos">
+                Datos ingresados de forma incorrecta. <br>
+                <button id="reintento_Guardado_De_Datos">Intentar otra vez</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para preguntar si borramos el historial -->
+    <div class="dialog-overlay" id="borrar_Historial_Box">
+        <div class="dialog-box">
+            <div id="borrar_Historial">
+                ¿Está seguro que desea borrar el historial? <br>
+                <button id="si_Borrar_Historial">Borrar</button>
+                <button id="no_Borrar_Historial">No Borrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuadro de dialogo para mostrar las instrucciones -->
+    <div class="dialog-overlay" id="instrucciones_Box">
+        <div class="dialog-box card shadow-lg">
+            <div class="card-body">
+                <div id="instrucciones" class="text-start">
+                    <h2 class="card-title">Bienvenido a tu planillero de voley preferido</h2>
+                    <h3 class="card-subtitle mb-2 text-muted">Instrucciones de Uso (Por favor leer con atención para su correcto funcionamiento)</h3>
+                    <p><strong>1.</strong> Ingresar los números de los jugadores y el nombre de cada equipo al inicio del partido (Locales y visitantes).</p>
+                    <p><strong>2.</strong> Luego, presionar "Guardar" en ambos.</p>
+                    <p><strong>3.</strong> Seleccionar quién de los 2 equipos comienza el partido sacando, y después presionar "Comenzar".</p>
+                    <p><strong>4.</strong> El planillero iniciará el partido y mostrará de color verde el jugador que va al saque.</p>
+                    <p><strong>5.</strong> Solo queda ir anotando para qué equipo es cada punto y el programa llevará por usted las rotaciones y el puntaje de ambos equipos.</p>
+                    <p><strong>(Siempre se mostrará en verde el jugador que va al saque)</strong></p>
+                    <p><strong>El partido está configurado a 5 puntos y diferencia de 2 así no se hace muy largo el probarlo.</strong></p>
+                    <h3>Historial</h3>
+                    <p><strong>6.</strong> Cada vez que finalice un juego podrá guardar un registro del mismo.</p>
+                    <p><strong>7.</strong> Para acceder a él, solo utilice los botones que aparecen en la pantalla principal.</p>
+                    <button id="cerrar_instruciones" class="btn btn-primary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS y JavaScript personalizado -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="js/master.js"></script 
+    <script src="js/master.js"></script>
 </body>
 </html>

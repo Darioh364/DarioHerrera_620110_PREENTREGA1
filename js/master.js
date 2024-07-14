@@ -11,163 +11,72 @@ let puntaje_Visitante = 0;
 let banderaLocal = 0;
 let banderaVisitante = 0;
 let historial;
-
-document.getElementById('boton_Ver_Instrucciones').addEventListener('click', function () {
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+// Funciones para modificar el DOM:
+// Función para mostrar instrucciones
+function mostrarInstrucciones() {
     document.getElementById('instrucciones_Box').style.display = 'flex';
     document.getElementById('cerrar_instruciones').addEventListener('click', function () {
         document.getElementById('instrucciones_Box').style.display = 'none';
     });
-});
-
-
-// Obtengo los Datos del equipo Local
-document.getElementById('guardarLocal').addEventListener('click', function () {
-
-    let entrada_Vacia_Incorrecta_Numero = false;
-    let entradas_Iguales = false;
-    equipoLocal = document.getElementById('nombre_Equipo_Local').value;
-    let valores = new Set(); // Conjunto para almacenar valores únicos
-
-    for (let i = 0; i <= 5; i++) {
-        let input = document.getElementById(`pos_Local_${i}`);
-        let value = input.value;
-
-        if (value === "" || isNaN(value) || equipoLocal === "") {
-            entrada_Vacia_Incorrecta_Numero = true;
-            break;
-        }
-
-        let valor_Pos = Number(value);
-        if (valores.has(valor_Pos)) {
-            entradas_Iguales = true;
-        } else {
-            valores.add(valor_Pos);
-        }
-    }
-
-    if (entrada_Vacia_Incorrecta_Numero) {
-        document.getElementById('error_carga_Box').style.display = 'flex';
-        document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
-            document.getElementById('error_carga_Box').style.display = 'none';
-        });
-    } else if (entradas_Iguales) {
-        document.getElementById('datos_Iguales_Box').style.display = 'flex';
-        document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
-            document.getElementById('datos_Iguales_Box').style.display = 'none';
-        });
-    } else {
-        // Obtener los valores de los inputs y almacenarlos en el array
-        posicionesLocal = [];
-        for (let i = 0; i <= 5; i++) {
-            let valor_Local = document.getElementById(`pos_Local_${i}`).value;
-            posicionesLocal.push(parseInt(valor_Local)); // Convertir a entero y agregar al array
-        }
-
-        let boton_Guardar_Local = document.getElementById('guardarLocal');
-        boton_Guardar_Local.innerHTML = `Guardado`;
-
-        // Deshabilitar los inputs y mostrar los valores almacenados
-        for (let i = 0; i <= 5; i++) {
-            let inputLocal = document.getElementById(`pos_Local_${i}`);
-            inputLocal.disabled = true;
-        }
-        document.getElementById('nombre_Equipo_Local').value = equipoLocal;
-        document.getElementById('nombre_Equipo_Local').disabled = true;
-    }
-
-
-});
-
-// Obtengo los Datos del equipo Visitante
-document.getElementById('guardarVisitante').addEventListener('click', function () {
-
-    let entrada_Vacia_Incorrecta_Numero = false;
-    let entradas_Iguales = false;
-    equipoVisitante = document.getElementById('nombre_Equipo_Visitante').value;
-    let valores = new Set(); // Conjunto para almacenar valores únicos
-
-    for (let i = 0; i <= 5; i++) {
-        let input = document.getElementById(`pos_Visitante_${i}`);
-        let value = input.value;
-
-        if (value === "" || isNaN(value) || equipoVisitante === "") {
-            entrada_Vacia_Incorrecta_Numero = true;
-            break;
-        }
-
-        let valor_Pos = Number(value);
-        if (valores.has(valor_Pos)) {
-            entradas_Iguales = true;
-        } else {
-            valores.add(valor_Pos);
-        }
-    }
-
-    if (entrada_Vacia_Incorrecta_Numero) {
-        document.getElementById('error_carga_Box').style.display = 'flex';
-        document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
-            document.getElementById('error_carga_Box').style.display = 'none';
-        });
-    } else if (entradas_Iguales) {
-        document.getElementById('datos_Iguales_Box').style.display = 'flex';
-        document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
-            document.getElementById('datos_Iguales_Box').style.display = 'none';
-        });
-    } else {
-        // Obtener los valores de los inputs y almacenarlos en el array
-        posicionesVisitante = [];
-        for (let i = 0; i <= 5; i++) {
-            let valor_Visitante = document.getElementById(`pos_Visitante_${i}`).value;
-            posicionesVisitante.push(parseInt(valor_Visitante)); // Convertir a entero y agregar al array
-        }
-
-        // Cambia el estado del Botón para que aparezca que los datos se guardaron
-        let boton_Guardar_Visitante = document.getElementById('guardarVisitante');
-        boton_Guardar_Visitante.innerHTML = `Guardado`;
-
-        // Deshabilitar los inputs y mostrar los valores almacenados
-        for (let i = 0; i <= 5; i++) {
-            let inputVisitante = document.getElementById(`pos_Visitante_${i}`);
-            inputVisitante.disabled = true;
-        }
-        document.getElementById('nombre_Equipo_Visitante').value = equipoVisitante;
-        document.getElementById('nombre_Equipo_Visitante').disabled = true;
-    }
-
-});
-
-// Obtengo quien tiene el saque
-document.getElementById('boton_Saque_Local').addEventListener('click', function () {
-    let botonSaqueLocal = document.getElementById('boton_Saque_Local');
-    botonSaqueLocal.classList.toggle('btn-secondary');
-    botonSaqueLocal.classList.toggle('btn-success');
-    primer_saque = 1;
-    console.log(primer_saque);
-}, { once: true });
-
-document.getElementById('boton_Saque_Visitante').addEventListener('click', function () {
-    let botonSaqueVisitante = document.getElementById('boton_Saque_Visitante');
-    botonSaqueVisitante.classList.toggle('btn-secondary');
-    botonSaqueVisitante.classList.toggle('btn-success');
-    primer_saque = 2;
-    console.log(primer_saque);
-}, { once: true });
-
-
-document.getElementById('boton_Ver_Historial').addEventListener('click', function () {
+}
+//Funcion para mostrar error de carga de datos
+function mostrarErrorCarga() {
+    document.getElementById('error_carga_Box').style.display = 'flex';
+    document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
+        document.getElementById('error_carga_Box').style.display = 'none';
+    });
+}
+//Funcion para mostrar error de datos iguales
+function mostrarDatosIguales() {
+    document.getElementById('datos_Iguales_Box').style.display = 'flex';
+    document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
+        document.getElementById('datos_Iguales_Box').style.display = 'none';
+    });
+}
+// Función para mostrar el cuadro de diálogo con el historial
+function mostrarHistorial() {
     document.getElementById('dialogOverlay').style.display = 'flex';
-    mostrarHistorial();
-
-});
-
-document.getElementById('boton_Cerrar_Historial').addEventListener('click', function () {
-    document.getElementById('dialogOverlay').style.display = 'none';
-});
-
-
-document.getElementById('boton_Borrar_Historial').addEventListener('click', function () {
+    let historial = obtenerHistorialPartidos();
+    let historialContenido = document.getElementById('historialContenido');
+    historialContenido.innerHTML = ''; // Limpiar contenido previo
+    if (historial.length > 0) {
+        historial.forEach(partido => {
+            let partidoElemento = document.createElement('div');
+            partidoElemento.innerHTML = `
+                <strong>Nombre del Partido:</strong> ${partido.nombre}<br>
+                <strong>Equipo Ganador:</strong> ${partido.datos.equipoGanador}<br>
+                <strong>Puntaje Ganador:</strong> ${partido.datos.puntajeGanador}<br>
+                <strong>Equipo Perdedor:</strong> ${partido.datos.equipoPerdedor}<br>
+                <strong>Puntaje Perdedor:</strong> ${partido.datos.puntajePerdedor}<br>
+                <hr>
+            `;
+            historialContenido.appendChild(partidoElemento);
+        });
+    } else {
+        historialContenido.innerHTML = 'No hay partidos guardados en el historial.';
+    }
+    
+    document.getElementById('boton_Cerrar_Historial').addEventListener('click', function () {
+        document.getElementById('dialogOverlay').style.display = 'none';
+    });
+}
+//____________________________________________________________________________________________________________________________________________________
+// Funciones para la logica del programa:
+//Funcion para obtener el historial de partidos
+function obtenerHistorialPartidos() {
+    let historial = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        let clave = localStorage.key(i);
+        let partidoJSON = localStorage.getItem(clave);
+        let partido = JSON.parse(partidoJSON);
+        historial.push({ nombre: clave, datos: partido });
+    }
+    return historial;
+}
+//Funcion para Borrar historial
+function borra_Historial(){
     document.getElementById('borrar_Historial_Box').style.display = 'flex';
-
     document.getElementById('si_Borrar_Historial').addEventListener('click', function () {
         historial = 1;
         if (historial === 1) {
@@ -193,46 +102,99 @@ document.getElementById('boton_Borrar_Historial').addEventListener('click', func
             document.getElementById('borrar_Historial_Box').style.display = 'none';
         }
     });
+}
+// Funcion para obtener datos del equipo local y visitante respectivamente
+function prueba(equipo){
+    let entrada_Vacia_Incorrecta_Numero = false;
+    let entradas_Iguales = false;
+    nombreEquipo = document.getElementById(`nombre_Equipo_${equipo}`).value;
+    let valores = new Set(); // Conjunto para almacenar valores únicos
+    for (let i = 0; i <= 5; i++) {
+        let input = document.getElementById(`pos_${equipo}_${i}`);
+        let value = input.value;
 
-
-});
-// Función para mostrar el cuadro de diálogo con el historial
-function mostrarHistorial() {
-    let historial = obtenerHistorialPartidos();
-    let historialContenido = document.getElementById('historialContenido');
-    historialContenido.innerHTML = ''; // Limpiar contenido previo
-
-    if (historial.length > 0) {
-        historial.forEach(partido => {
-            let partidoElemento = document.createElement('div');
-            partidoElemento.innerHTML = `
-                <strong>Nombre del Partido:</strong> ${partido.nombre}<br>
-                <strong>Equipo Ganador:</strong> ${partido.datos.equipoGanador}<br>
-                <strong>Puntaje Ganador:</strong> ${partido.datos.puntajeGanador}<br>
-                <strong>Equipo Perdedor:</strong> ${partido.datos.equipoPerdedor}<br>
-                <strong>Puntaje Perdedor:</strong> ${partido.datos.puntajePerdedor}<br>
-                <hr>
-            `;
-            historialContenido.appendChild(partidoElemento);
-        });
+        if (value === "" || isNaN(value) || nombreEquipo === "") {
+            entrada_Vacia_Incorrecta_Numero = true;
+            break;
+        }
+        let valor_Pos = Number(value);
+        if (valores.has(valor_Pos)) {
+            entradas_Iguales = true;
+        } else {
+            valores.add(valor_Pos);
+        }
+    }
+    if (entrada_Vacia_Incorrecta_Numero) {
+        mostrarErrorCarga();
+    } else if (entradas_Iguales) {
+       mostrarDatosIguales();
     } else {
-        historialContenido.innerHTML = 'No hay partidos guardados en el historial.';
+        // Obtener los valores de los inputs y almacenarlos en el array
+        posiciones = [];
+        for (let i = 0; i <= 5; i++) {
+            let valor = document.getElementById(`pos_${equipo}_${i}`).value;
+            posiciones.push(parseInt(valor)); // Convertir a entero y agregar al array
+        }
+        let boton_Guardar = document.getElementById(`guardar${equipo}`);
+        boton_Guardar.innerHTML = `Guardado`;
+
+        // Deshabilitar los inputs y mostrar los valores almacenados
+        for (let i = 0; i <= 5; i++) {
+            let inputLocal = document.getElementById(`pos_${equipo}_${i}`);
+            inputLocal.disabled = true;
+        }
+        document.getElementById(`nombre_Equipo_${equipo}`).value = nombreEquipo;
+        document.getElementById(`nombre_Equipo_${equipo}`).disabled = true;
     }
-
-    document.getElementById('dialogOverlay').style.display = 'flex';
+    return nombreEquipo;
+    return posiciones;
 }
+//____________________________________________________________________________________________________________________________________________________
+// Botones para de la pantalla principal:
+// Obtengo los Datos del equipo Local
+document.getElementById('guardarLocal').addEventListener('click', function () {
+    let equipo = 'Local';
+    prueba(equipo);
+    posicionesLocal = posiciones; 
+    equipoLocal = nombreEquipo;
+});
 
-function obtenerHistorialPartidos() {
-    let historial = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        let clave = localStorage.key(i);
-        let partidoJSON = localStorage.getItem(clave);
-        let partido = JSON.parse(partidoJSON);
-        historial.push({ nombre: clave, datos: partido });
-    }
-    return historial;
-}
+// Obtengo los Datos del equipo Visitante
+document.getElementById('guardarVisitante').addEventListener('click', function () {
+    let equipo = 'Visitante';
+    prueba(equipo);
+    posicionesVisitante = posiciones; 
+    equipoVisitante = nombreEquipo;
+});
+// Obtengo quien tiene el saque al comienzo
+document.getElementById('boton_Saque_Local').addEventListener('click', function () {
+    let botonSaqueLocal = document.getElementById('boton_Saque_Local');
+    botonSaqueLocal.classList.toggle('btn-secondary');
+    botonSaqueLocal.classList.toggle('btn-success');
+    primer_saque = 1;
+    console.log( primer_saque);
+});
 
+document.getElementById('boton_Saque_Visitante').addEventListener('click', function () {
+    let botonSaqueVisitante = document.getElementById('boton_Saque_Visitante');
+    botonSaqueVisitante.classList.toggle('btn-secondary');
+    botonSaqueVisitante.classList.toggle('btn-success');
+    primer_saque = 2;
+    console.log( primer_saque);
+});
+//______________________________________________________________________________________________________________________________
+// Boton para ver instrucciones
+document.getElementById('boton_Ver_Instrucciones').addEventListener('click', function () {
+    mostrarInstrucciones();
+});
+// Boton para ver historial
+document.getElementById('boton_Ver_Historial').addEventListener('click', function () {
+    mostrarHistorial();
+});
+// Boton para borrar el historial
+document.getElementById('boton_Borrar_Historial').addEventListener('click', function () {
+    borra_Historial();
+});
 // Boton para empezar el partido
 document.getElementById('boton_Empezar').addEventListener('click', function () {
     let contenido_Msj_Centro = document.getElementById('msj_Centro');
@@ -245,7 +207,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     const posicionesVisitanteComparacion = [...posicionesVisitante]; //Es una mouske herramientas que nos servira mas tarde 
     let boton_Ver_Historial_Block = document.getElementById('boton_Ver_Historial_Block');
     let boton_Borrar_Historial_Block = document.getElementById('boton_Borrar_Historial_Block');
-
+//_________________________Modificacion del DOM para la pantalla de incio del partido____________________________________________________
     puntaje_Local = 0;
     puntaje_Visitante = 0;
 
@@ -260,7 +222,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     puntaje_Visitante_Block.innerHTML = `
         <h4>${puntaje_Visitante}</h4>
     `;
-
+    
     boton_Empezar_Block.innerHTML = ``;
 
     nombre_Equipo_Local_Block.innerHTML = `
@@ -295,8 +257,9 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             document.getElementById(`pos_Local_${i}`).classList.add('red-bg');
         }
     }
-
-    // Función para actualizar el puntaje
+//___________________________________________________________________________________________________________________________________________________
+// Funciones para la logica del programa cuando ya comenzo:
+// Función para actualizar el puntaje
     function actualizarPuntaje(equipo) {
         if (equipo === 'L') {
             puntaje_Local++;
@@ -312,11 +275,9 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
                 rotarPosiciones(posicionesVisitante, saqueActual);
                 rotar_Color_Saque(saqueActual, posicionesVisitante, posicionesVisitanteComparacion);
             }
-
         }
     }
-
-    // Función para rotar posiciones
+// Función para rotar posiciones
     function rotarPosiciones(posiciones, saque) {
         let aux = posiciones[0];
         for (let i = 0; i < 5; i++) {
@@ -324,8 +285,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
         }
         posiciones[5] = aux;
     }
-
-    // Función para verificar el estado del juego
+// Función para verificar el estado del juego
     function verificarEstado() {
         diferenciaPuntos = Math.abs(puntaje_Local - puntaje_Visitante);
         if ((puntaje_Local >= 5 || puntaje_Visitante >= 5) && diferenciaPuntos >= 2) {
@@ -336,18 +296,15 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             }
         }
     }
-
-    // Función para actualizar la pantalla
+// Función para actualizar la pantalla
     function actualizarPantalla() {
         puntaje_Local_Block.innerHTML = `<h4>${puntaje_Local}</h4>`;
         puntaje_Visitante_Block.innerHTML = `<h4>${puntaje_Visitante}</h4>`;
     }
-
+// Funcion para cambiar el color del jugador que saca
     function rotar_Color_Saque(saque, posiciones1, posiciones2) {
-
         let index;
         let value = posiciones1[0];
-
         if (saque === 1) {
             // Buscar el índice de este valor en posiciones2 (posicionesLocalComparacion)
             index = posiciones2.indexOf(value);
@@ -359,17 +316,14 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
                     document.getElementById(`pos_Local_${index}`).classList.add('green-bg');
                 }
             }
-
             // Aplicar rojo a todos los jugadores visitantes
             for (let i = 0; i <= 5; i++) {
                 document.getElementById(`pos_Visitante_${i}`).classList.remove('green-bg');
                 document.getElementById(`pos_Visitante_${i}`).classList.add('red-bg');
             }
-
         } else if (saque === 2) {
             // Buscar el índice de este valor en posiciones2 (posicionesVisitanteComparacion)
             index = posiciones2.indexOf(value);
-
             // Asignar el verde al jugador del saque visitante y rojo a los demás
             for (let i = 0; i <= 5; i++) {
                 document.getElementById(`pos_Visitante_${i}`).classList.add('red-bg');
@@ -378,7 +332,6 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
                     document.getElementById(`pos_Visitante_${index}`).classList.add('green-bg');
                 }
             }
-
             // Aplicar rojo a todos los jugadores locales
             for (let i = 0; i <= 5; i++) {
                 document.getElementById(`pos_Local_${i}`).classList.remove('green-bg');
@@ -386,7 +339,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             }
         }
     }
-
+// Funcion para terminar el partido
     function finDelJuego(equipoGanador, equipoPerdedor, puntajeGanador, puntajePerdedor) {
         //Creo un objeto, para guardar los datos del partido
         let datos_Partido = {
@@ -433,7 +386,6 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
                         Datos del partido guardados correctamente. <br>
                         <button id="terminar_Guardado_De_Datos">Terminar</button>
                     `;
-
                     // Agregar evento click al botón Terminar
                     document.getElementById('terminar_Guardado_De_Datos').addEventListener('click', function () {
                         // Ocultar el cuadro de dialogo de guardar_Datos_Box
@@ -455,10 +407,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             });
         });
     }
-
-
-    // Asignar eventos para actualizar el puntaje, espera si se acciona un boton u el otro:--------------------------------------------------------------
-
+    // Asignar eventos para actualizar el puntaje, espera si se acciona un boton u el otro:
     document.getElementById('boton_Saque_Local').addEventListener('click', function () {
         actualizarPuntaje('L');
         actualizarPantalla();
@@ -470,6 +419,4 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
         actualizarPantalla();
         verificarEstado();
     });
-
-
 });

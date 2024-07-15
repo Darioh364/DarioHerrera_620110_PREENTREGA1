@@ -1,7 +1,6 @@
 let equipoLocal = "";
 let equipoVisitante = "";
 let primer_saque = 0;
-let punto = "";
 let saqueActual = 0;
 let diferenciaPuntos = 0;
 let posicionesLocal = [];
@@ -10,7 +9,6 @@ let puntaje_Local = 0;
 let puntaje_Visitante = 0;
 let banderaLocal = 0;
 let banderaVisitante = 0;
-let historial;
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 // Funciones para modificar el DOM:
 // Función para mostrar instrucciones
@@ -76,6 +74,7 @@ function obtenerHistorialPartidos() {
 }
 //Funcion para Borrar historial
 function borra_Historial(){
+    let historial = 0;
     document.getElementById('borrar_Historial_Box').style.display = 'flex';
     document.getElementById('si_Borrar_Historial').addEventListener('click', function () {
         historial = 1;

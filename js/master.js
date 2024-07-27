@@ -18,7 +18,7 @@ fetch('data/equipos_1.json')
         // Process the data
         arraysDeFormaciones = data_Equipos1.map(formacion => Object.values(formacion));
     })
-.catch(error => console.error('Error fetching the JSON data:', error));
+    .catch(error => console.error('Error fetching the JSON data:', error));
 
 
 
@@ -187,26 +187,64 @@ function prueba(equipo) {
 //____________________________________________________________________________________________________________________________________________________
 // Botones para de la pantalla principal:
 // Obtengo los Datos del equipo Local
-
-//Cargar automaticamente las posiciones
-document.getElementById('ni_Idea_Rey').addEventListener('click', function () {
-    // Verifica que arraysDeFormaciones tenga datos
+//Funcion para cargar automaticamente las posiciones
+function cargar_Formacion(i, formacion_Equipo) {
     if (arraysDeFormaciones.length > 0) {
-        const VALOR = arraysDeFormaciones[0]; // Asignar correctamente el primer array
-
+        const valor = arraysDeFormaciones[i]; // Asignar correctamente el primer array
         // Asignar los valores a los inputs
-        document.getElementById('pos_Local_0').value = VALOR[0];
-        document.getElementById('pos_Local_1').value = VALOR[1];
-        document.getElementById('pos_Local_2').value = VALOR[2];
-        document.getElementById('pos_Local_3').value = VALOR[3];
-        document.getElementById('pos_Local_4').value = VALOR[4];
-        document.getElementById('pos_Local_5').value = VALOR[5];
-    } else {
-        console.error('No hay datos disponibles para asignar a los inputs.');
+        document.getElementById(`pos_${formacion_Equipo}_0`).value = valor[0];
+        document.getElementById(`pos_${formacion_Equipo}_1`).value = valor[1];
+        document.getElementById(`pos_${formacion_Equipo}_2`).value = valor[2];
+        document.getElementById(`pos_${formacion_Equipo}_3`).value = valor[3];
+        document.getElementById(`pos_${formacion_Equipo}_4`).value = valor[4];
+        document.getElementById(`pos_${formacion_Equipo}_5`).value = valor[5];
+    } 
+}
+// Funcion para elegir la formacion a cargar
+function elegir_Formacion(formacion_Id, formacion_Equipo) {
+    switch (formacion_Id) {
+        case `guardado_${formacion_Equipo}_1`:
+            cargar_Formacion(0, formacion_Equipo);
+            break;
+        case `guardado_${formacion_Equipo}_2`:
+            cargar_Formacion(1, formacion_Equipo);
+            break;
+        case `guardado_${formacion_Equipo}_3`:
+            cargar_Formacion(2, formacion_Equipo);
+            break;
+        case `guardado_${formacion_Equipo}_4`:
+            cargar_Formacion(3, formacion_Equipo);
+            break;
+        case `guardado_${formacion_Equipo}_5`:
+            cargar_Formacion(4, formacion_Equipo);
+            break;
+        case `guardado_${formacion_Equipo}_6`:
+            cargar_Formacion(5, formacion_Equipo);
+            break;
     }
+}
 
+// Creo los eventos para esperar y ver si se utilizan las rotaciones previas guardadas
+
+const dropdown_Local = document.getElementById('guardado_Local');
+dropdown_Local.addEventListener('click', (event) => {
+    const formacion = event.target.closest('li'); // Me sirve para ubicar en que Elelemto "li" se hizo click
+    if (formacion) {
+        let formacion_Equipo_Local = "Local";
+        elegir_Formacion(formacion.id, formacion_Equipo_Local);
+    }
 });
 
+const dropdown_Visitante = document.getElementById('guardado_Visitante');
+dropdown_Visitante.addEventListener('click', (event) => {
+    const formacion = event.target.closest('li'); // Me sirve para ubicar en que Elelemto "li" se hizo click
+    if (formacion) {
+        let formacion_Equipo_Visitante = "Visitante";
+        elegir_Formacion(formacion.id, formacion_Equipo_Visitante);
+    }
+});
+
+// Obtengo los Datos del equipo Local
 document.getElementById('guardarLocal').addEventListener('click', function () {
     let equipo = 'Local';
     prueba(equipo);

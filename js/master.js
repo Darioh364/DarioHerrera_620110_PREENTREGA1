@@ -5,31 +5,71 @@ let saqueActual = 0;
 let diferenciaPuntos = 0;
 let posicionesLocal = [];
 let posicionesVisitante = [];
+let arraysDeFormaciones = [];
 let puntaje_Local = 0;
 let puntaje_Visitante = 0;
 let banderaLocal = 0;
 let banderaVisitante = 0;
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+// Obtengo las posiciones guardadas en el .json
+fetch('data/equipos_1.json')
+    .then(response => response.json())
+    .then(data_Equipos1 => {
+        // Process the data
+        arraysDeFormaciones = data_Equipos1.map(formacion => Object.values(formacion));
+    })
+.catch(error => console.error('Error fetching the JSON data:', error));
+
+
+
 // Funciones para modificar el DOM:
 // Función para mostrar instrucciones
 function mostrarInstrucciones() {
-    document.getElementById('instrucciones_Box').style.display = 'flex';
-    document.getElementById('cerrar_instruciones').addEventListener('click', function () {
-        document.getElementById('instrucciones_Box').style.display = 'none';
+    Swal.fire({
+        title: "<strong><u>Bienvenido a tu planillero de voley</u></strong>",
+        html: `
+                    <div id="instrucciones" class="text-start">
+                    <h3 class="card-subtitle mb-2 text-muted">Instrucciones de Uso (Por favor leer con atención para su
+                        correcto funcionamiento)</h3>
+                    <p><strong>1.</strong> Ingresar los números de los jugadores y el nombre de cada equipo al inicio
+                        del partido (Locales y visitantes).</p>
+                    <p><strong>2.</strong> Luego, presionar "Guardar" en ambos.</p>
+                    <p><strong>3.</strong> Seleccionar quién de los 2 equipos comienza el partido sacando, y después
+                        presionar "Comenzar".</p>
+                    <p><strong>4.</strong> El planillero iniciará el partido y mostrará de color verde el jugador que va
+                        al saque.</p>
+                    <p><strong>5.</strong> Solo queda ir anotando para qué equipo es cada punto y el programa llevará
+                        por usted las rotaciones y el puntaje de ambos equipos.</p>
+                    <p><strong>(Siempre se mostrará en verde el jugador que va al saque)</strong></p>
+                    <p><strong>El partido está configurado a 5 puntos y diferencia de 2 así no se hace muy largo el
+                            probarlo.</strong></p>
+                    <h3>Historial</h3>
+                    <p><strong>6.</strong> Cada vez que finalice un juego podrá guardar un registro del mismo.</p>
+                    <p><strong>7.</strong> Para acceder a él, solo utilice los botones que aparecen en la pantalla
+                        principal.</p>
+                </div>
+        `,
+        showCloseButton: true,
+        focusConfirm: false,
+        confirmButtonText: `
+          <i class="fa fa-thumbs-up"></i> Okey!
+        `,
     });
 }
 //Funcion para mostrar error de carga de datos
 function mostrarErrorCarga() {
-    document.getElementById('error_carga_Box').style.display = 'flex';
-    document.getElementById('cerrar_Erorr_Carga').addEventListener('click', function () {
-        document.getElementById('error_carga_Box').style.display = 'none';
+    Swal.fire({
+        icon: "error",
+        title: "mmm...",
+        text: "Faltan completar campos o los datos son incorrectos ",
     });
 }
 //Funcion para mostrar error de datos iguales
 function mostrarDatosIguales() {
-    document.getElementById('datos_Iguales_Box').style.display = 'flex';
-    document.getElementById('cerrar_Datos_Iguales').addEventListener('click', function () {
-        document.getElementById('datos_Iguales_Box').style.display = 'none';
+    Swal.fire({
+        icon: "warning",
+        title: "Apa apa apa...",
+        text: "Hay 2 numeros repetidos en un mismo equipo",
     });
 }
 // Función para mostrar el cuadro de diálogo con el historial
@@ -54,7 +94,6 @@ function mostrarHistorial() {
     } else {
         historialContenido.innerHTML = 'No hay partidos guardados en el historial.';
     }
-    
     document.getElementById('boton_Cerrar_Historial').addEventListener('click', function () {
         document.getElementById('dialogOverlay').style.display = 'none';
     });
@@ -73,37 +112,34 @@ function obtenerHistorialPartidos() {
     return historial;
 }
 //Funcion para Borrar historial
-function borra_Historial(){
+function borra_Historial() {
     let historial = 0;
-    document.getElementById('borrar_Historial_Box').style.display = 'flex';
-    document.getElementById('si_Borrar_Historial').addEventListener('click', function () {
-        historial = 1;
-        if (historial === 1) {
-            localStorage.clear();
-            let historial_Borrado = document.getElementById('borrar_Historial');
-            historial_Borrado.innerHTML = `
-                El historial se borro de forma correcta. <br>
-                <button id="terminar_Borrado_Historial">Terminar</button>
-            `;
-            document.getElementById('terminar_Borrado_Historial').addEventListener('click', function () {
+    // Alerta para preguntar si borrar el historial 
+    Swal.fire({
+        title: "Esta seguro de que quiere borrar el historial?",
+        showDenyButton: true,
+        confirmButtonText: "Borrar",
+        denyButtonText: `No borrar`
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            historial = 1;
+            if (historial === 1) {
+                localStorage.clear();
+                Swal.fire("El historial se borro de forma correcta.", "", "success");
+            }
+        } else if (result.isDenied) {
+            historial = 2;
+            if (historial === 1) {
+                localStorage.clear();
                 document.getElementById('borrar_Historial_Box').style.display = 'none';
-            });
-        } else if (historial === 2) {
-            document.getElementById('borrar_Historial_Box').style.display = 'none';
-        }
-    });
-    document.getElementById('no_Borrar_Historial').addEventListener('click', function () {
-        historial = 2;
-        if (historial === 1) {
-            localStorage.clear();
-            document.getElementById('borrar_Historial_Box').style.display = 'none';
-        } else if (historial === 2) {
-            document.getElementById('borrar_Historial_Box').style.display = 'none';
+                Swal.fire("El historial no se borro", "", "info");
+            }
         }
     });
 }
 // Funcion para obtener datos del equipo local y visitante respectivamente
-function prueba(equipo){
+function prueba(equipo) {
     let entrada_Vacia_Incorrecta_Numero = false;
     let entradas_Iguales = false;
     nombreEquipo = document.getElementById(`nombre_Equipo_${equipo}`).value;
@@ -126,7 +162,7 @@ function prueba(equipo){
     if (entrada_Vacia_Incorrecta_Numero) {
         mostrarErrorCarga();
     } else if (entradas_Iguales) {
-       mostrarDatosIguales();
+        mostrarDatosIguales();
     } else {
         // Obtener los valores de los inputs y almacenarlos en el array
         posiciones = [];
@@ -151,10 +187,30 @@ function prueba(equipo){
 //____________________________________________________________________________________________________________________________________________________
 // Botones para de la pantalla principal:
 // Obtengo los Datos del equipo Local
+
+//Cargar automaticamente las posiciones
+document.getElementById('ni_Idea_Rey').addEventListener('click', function () {
+    // Verifica que arraysDeFormaciones tenga datos
+    if (arraysDeFormaciones.length > 0) {
+        const VALOR = arraysDeFormaciones[0]; // Asignar correctamente el primer array
+
+        // Asignar los valores a los inputs
+        document.getElementById('pos_Local_0').value = VALOR[0];
+        document.getElementById('pos_Local_1').value = VALOR[1];
+        document.getElementById('pos_Local_2').value = VALOR[2];
+        document.getElementById('pos_Local_3').value = VALOR[3];
+        document.getElementById('pos_Local_4').value = VALOR[4];
+        document.getElementById('pos_Local_5').value = VALOR[5];
+    } else {
+        console.error('No hay datos disponibles para asignar a los inputs.');
+    }
+
+});
+
 document.getElementById('guardarLocal').addEventListener('click', function () {
     let equipo = 'Local';
     prueba(equipo);
-    posicionesLocal = posiciones; 
+    posicionesLocal = posiciones;
     equipoLocal = nombreEquipo;
 });
 
@@ -162,7 +218,7 @@ document.getElementById('guardarLocal').addEventListener('click', function () {
 document.getElementById('guardarVisitante').addEventListener('click', function () {
     let equipo = 'Visitante';
     prueba(equipo);
-    posicionesVisitante = posiciones; 
+    posicionesVisitante = posiciones;
     equipoVisitante = nombreEquipo;
 });
 // Obtengo quien tiene el saque al comienzo
@@ -171,7 +227,7 @@ document.getElementById('boton_Saque_Local').addEventListener('click', function 
     botonSaqueLocal.classList.toggle('btn-secondary');
     botonSaqueLocal.classList.toggle('btn-success');
     primer_saque = 1;
-    console.log( primer_saque);
+    console.log(primer_saque);
 });
 
 document.getElementById('boton_Saque_Visitante').addEventListener('click', function () {
@@ -179,7 +235,7 @@ document.getElementById('boton_Saque_Visitante').addEventListener('click', funct
     botonSaqueVisitante.classList.toggle('btn-secondary');
     botonSaqueVisitante.classList.toggle('btn-success');
     primer_saque = 2;
-    console.log( primer_saque);
+    console.log(primer_saque);
 });
 //______________________________________________________________________________________________________________________________
 // Boton para ver instrucciones
@@ -206,7 +262,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     const posicionesVisitanteComparacion = [...posicionesVisitante]; //Es una mouske herramientas que nos servira mas tarde 
     let boton_Ver_Historial_Block = document.getElementById('boton_Ver_Historial_Block');
     let boton_Borrar_Historial_Block = document.getElementById('boton_Borrar_Historial_Block');
-//_________________________Modificacion del DOM para la pantalla de incio del partido____________________________________________________
+    //_________________________Modificacion del DOM para la pantalla de incio del partido____________________________________________________
     puntaje_Local = 0;
     puntaje_Visitante = 0;
 
@@ -221,7 +277,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     puntaje_Visitante_Block.innerHTML = `
         <h4>${puntaje_Visitante}</h4>
     `;
-    
+
     boton_Empezar_Block.innerHTML = ``;
 
     nombre_Equipo_Local_Block.innerHTML = `
@@ -256,9 +312,9 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             document.getElementById(`pos_Local_${i}`).classList.add('red-bg');
         }
     }
-//___________________________________________________________________________________________________________________________________________________
-// Funciones para la logica del programa cuando ya comenzo:
-// Función para actualizar el puntaje
+    //___________________________________________________________________________________________________________________________________________________
+    // Funciones para la logica del programa cuando ya comenzo:
+    // Función para actualizar el puntaje
     function actualizarPuntaje(equipo) {
         if (equipo === 'L') {
             puntaje_Local++;
@@ -276,7 +332,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             }
         }
     }
-// Función para rotar posiciones
+    // Función para rotar posiciones
     function rotarPosiciones(posiciones, saque) {
         let aux = posiciones[0];
         for (let i = 0; i < 5; i++) {
@@ -284,7 +340,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
         }
         posiciones[5] = aux;
     }
-// Función para verificar el estado del juego
+    // Función para verificar el estado del juego
     function verificarEstado() {
         diferenciaPuntos = Math.abs(puntaje_Local - puntaje_Visitante);
         if ((puntaje_Local >= 5 || puntaje_Visitante >= 5) && diferenciaPuntos >= 2) {
@@ -295,12 +351,12 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             }
         }
     }
-// Función para actualizar la pantalla
+    // Función para actualizar la pantalla
     function actualizarPantalla() {
         puntaje_Local_Block.innerHTML = `<h4>${puntaje_Local}</h4>`;
         puntaje_Visitante_Block.innerHTML = `<h4>${puntaje_Visitante}</h4>`;
     }
-// Funcion para cambiar el color del jugador que saca
+    // Funcion para cambiar el color del jugador que saca
     function rotar_Color_Saque(saque, posiciones1, posiciones2) {
         let index;
         let value = posiciones1[0];
@@ -338,7 +394,7 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
             }
         }
     }
-// Funcion para terminar el partido
+    // Funcion para terminar el partido
     function finDelJuego(equipoGanador, equipoPerdedor, puntajeGanador, puntajePerdedor) {
         //Creo un objeto, para guardar los datos del partido
         let datos_Partido = {

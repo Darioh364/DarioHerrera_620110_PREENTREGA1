@@ -32,6 +32,21 @@
                         <div class="d-flex justify-content-center">
                             <h6>Cargar posiciones:</h6>
                         </div>
+                        <!--Boton desplegable para cargar posiciones de forma automatica-->
+                        <div class="dropdown d-flex justify-content-center">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Guardadas
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li id="ni_Idea_Rey"><a class="dropdown-item">1</a></li>
+                                <li><a class="dropdown-item">2</a></li>
+                                <li><a class="dropdown-item">3</a></li>
+                                <li><a class="dropdown-item">4</a></li>
+                                <li><a class="dropdown-item">5</a></li>
+                                <li><a class="dropdown-item">6</a></li>
+                            </ul>
+                        </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <input type="number" id="pos_Local_0" class="form-control" placeholder="1:"
@@ -95,6 +110,21 @@
                         <img src="img/zonas.png" class="card-img-top" alt="...">
                         <div class="d-flex justify-content-center">
                             <h6>Cargar posiciones:</h6>
+                        </div>
+                        <!--Boton desplegable para cargar posiciones de forma automatica-->
+                        <div class="dropdown d-flex justify-content-center">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Guardadas
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item">1</a></li>
+                                <li><a class="dropdown-item">2</a></li>
+                                <li><a class="dropdown-item">3</a></li>
+                                <li><a class="dropdown-item">4</a></li>
+                                <li><a class="dropdown-item">5</a></li>
+                                <li><a class="dropdown-item">6</a></li>
+                            </ul>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
@@ -180,25 +210,6 @@
         </div>
     </div>
 
-    <!-- Cuadro de dialogo para error en el guardado de datos -->
-    <div class="dialog-overlay" id="error_carga_Box">
-        <div class="dialog-box">
-            <div id="error_carga">
-                Faltan completar campos o los Datos son incorrectos <br>
-                <button id="cerrar_Erorr_Carga">Ok</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cuadro de dialogo para error en el guardado de datos -->
-    <div class="dialog-overlay" id="datos_Iguales_Box">
-        <div class="dialog-box">
-            <div id="datos_Iguales">
-                Hay 2 numeros repetidos en un mismo equipo <br>
-                <button id="cerrar_Datos_Iguales">Ok</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Cuadro de dialogo para error en el guardado de datos -->
     <div class="dialog-overlay" id="error_Datos_Box">
@@ -210,47 +221,8 @@
         </div>
     </div>
 
-    <!-- Cuadro de dialogo para preguntar si borramos el historial -->
-    <div class="dialog-overlay" id="borrar_Historial_Box">
-        <div class="dialog-box">
-            <div id="borrar_Historial">
-                ¿Está seguro que desea borrar el historial? <br>
-                <button id="si_Borrar_Historial">Borrar</button>
-                <button id="no_Borrar_Historial">No Borrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cuadro de dialogo para mostrar las instrucciones -->
-    <div class="dialog-overlay" id="instrucciones_Box">
-        <div class="dialog-box card shadow-lg">
-            <div class="card-body">
-                <div id="instrucciones" class="text-start">
-                    <h2 class="card-title">Bienvenido a tu planillero de voley preferido</h2>
-                    <h3 class="card-subtitle mb-2 text-muted">Instrucciones de Uso (Por favor leer con atención para su
-                        correcto funcionamiento)</h3>
-                    <p><strong>1.</strong> Ingresar los números de los jugadores y el nombre de cada equipo al inicio
-                        del partido (Locales y visitantes).</p>
-                    <p><strong>2.</strong> Luego, presionar "Guardar" en ambos.</p>
-                    <p><strong>3.</strong> Seleccionar quién de los 2 equipos comienza el partido sacando, y después
-                        presionar "Comenzar".</p>
-                    <p><strong>4.</strong> El planillero iniciará el partido y mostrará de color verde el jugador que va
-                        al saque.</p>
-                    <p><strong>5.</strong> Solo queda ir anotando para qué equipo es cada punto y el programa llevará
-                        por usted las rotaciones y el puntaje de ambos equipos.</p>
-                    <p><strong>(Siempre se mostrará en verde el jugador que va al saque)</strong></p>
-                    <p><strong>El partido está configurado a 5 puntos y diferencia de 2 así no se hace muy largo el
-                            probarlo.</strong></p>
-                    <h3>Historial</h3>
-                    <p><strong>6.</strong> Cada vez que finalice un juego podrá guardar un registro del mismo.</p>
-                    <p><strong>7.</strong> Para acceder a él, solo utilice los botones que aparecen en la pantalla
-                        principal.</p>
-                    <button id="cerrar_instruciones" class="btn btn-primary">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Importamos por CDN Swetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap JS y JavaScript personalizado -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

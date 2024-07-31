@@ -6,10 +6,145 @@ let diferenciaPuntos = 0;
 let posicionesLocal = [];
 let posicionesVisitante = [];
 let arraysDeFormaciones = [];
+let array_De_Texto = [];
+let array_Texto_2 = []
 let puntaje_Local = 0;
 let puntaje_Visitante = 0;
 let banderaLocal = 0;
 let banderaVisitante = 0;
+let idioma_Aux = 0;
+let contador_Idioma = 0;
+let i = 0;
+//_________________________________________________________________________________________________________________________________________
+// Cargo un array con los textos de los elementos por si se necesitan despues para traducir la pagina
+const elementos_Id = [
+    "titulo_Pagina_1","titulo_Pagina_2", "selector_Idioma", "nombre_Equipo_Local_Let", "nombre_Equipo_Visitante_Let","puntaje", "boton_Ver_Instrucciones", "boton_Ver_Historial", "boton_Borrar_Historial", "puntaje_Local", "puntaje_Visitante", 
+    "boton_Saque_Local", "msj_Centro", "boton_Saque_Visitante", "boton_Empezar", "guardarLocal", "guardarVisitante", "boton_Guardar_1", "boton_Guardar_2", "titulo_Posiciones_1", "titulo_Posiciones_2"
+];
+//Array para los textos
+let elementos_Pagina = elementos_Id.map(function(id) {
+    let element = document.getElementById(id); 
+    if (element) {
+        array_De_Texto[i] = element.innerText; // Asigna el innerText al índice actual del array
+        i++; // Incrementa el índice
+    }
+})
+
+
+
+//________________________________________________________________________________________________________________
+//Elementos del DOM
+//Cargo el selector con la lista de idioma
+let idioma_Elegido = document.querySelector('#idioma_Elegido');
+
+const url = 'https://text-translator2.p.rapidapi.com/getLanguages';
+const options = {
+    method: 'GET',
+	headers: {
+		'x-rapidapi-key': '3ddf2e1860mshcf816e06e72ca7ep1d6231jsn3d1e2ad14d05',
+		'x-rapidapi-host': 'text-translator2.p.rapidapi.com'
+	}
+};
+
+fetch(url, options)
+    .then(res => res.json())
+    .then(objeto => {
+        let languages = objeto.data.languages;
+        //codigo necesario para cargar el select
+        languages.forEach(e => {
+            idioma_Elegido.innerHTML += `<option value="${e.code}">${e.name}</option>`;
+        })
+    })
+    .catch(error => console.log(error));
+//_____________________________________________________________________________________________________________
+//Enviar datos
+async function traducir_Elemento_Especifico (idioma_Elegido, texto){
+    if (contador_Idioma == 0){
+        idioma_Aux = "es";
+    }
+        const url_2 = 'https://text-translator2.p.rapidapi.com/translate';
+        const data = new FormData();
+        data.append('source_language', `${idioma_Aux}`);
+        data.append('target_language', `${idioma_Elegido}`);
+        data.append('text', `${texto}`);
+
+        const options_2 = {
+            method: 'POST',
+            headers: {
+                'x-rapidapi-key': '3ddf2e1860mshcf816e06e72ca7ep1d6231jsn3d1e2ad14d05',
+                'x-rapidapi-host': 'text-translator2.p.rapidapi.com'
+            },
+            body: data
+        };
+        // Hago la peticion de la traduccion
+        await fetch(url_2, options_2)
+        .then(res => res.json())
+        .then(objeto => {
+            let texto_Traducido = objeto.data.translatedText
+            array_Traducido(texto_Traducido);
+        });
+}
+
+
+//_______________________________________________________________________________________________________________________________
+
+
+async function traducir_Html(idioma_Elegido) {
+    for (let elemento of array_De_Texto) {
+        let texto = elemento; 
+        await traducir_Elemento_Especifico(idioma_Elegido, texto);
+        // Llamo a la función para que cambie el texto del html
+    }
+    contador_Idioma ++;
+    idioma_Aux = idioma_Elegido;
+    imprimir_Html_Traducido(array_Texto_2);
+    console.log(array_Texto_2)
+    array_Texto_2 = [];
+}
+
+async function array_Traducido(texto_Traducido){
+        let element = texto_Traducido; // Obtiene el elemento por ID
+        if (element) { // Verifica que el elemento exista
+            array_Texto_2.push(element); // Agrega el texto del elemento al array
+        }
+}
+
+function imprimir_Html_Traducido(array_Texto_2){
+    elementos_Id.forEach(function(id, index) {
+        if (index < array_Texto_2.length) {
+            let texto_Cambiado = array_Texto_2[index]; // Accede al elemento del array usando el índice
+            document.getElementById(id).innerText = texto_Cambiado; // Cambia el texto del elemento
+        }
+    })
+}
+
+document.getElementById('idioma_Elegido').addEventListener('change', function () {
+    let idioma_Seleccionado = this.value;
+    traducir_Html(idioma_Seleccionado);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 // Obtengo las posiciones guardadas en el .json
 fetch('data/equipos_1.json')
@@ -198,7 +333,7 @@ function cargar_Formacion(i, formacion_Equipo) {
         document.getElementById(`pos_${formacion_Equipo}_3`).value = valor[3];
         document.getElementById(`pos_${formacion_Equipo}_4`).value = valor[4];
         document.getElementById(`pos_${formacion_Equipo}_5`).value = valor[5];
-    } 
+    }
 }
 // Funcion para elegir la formacion a cargar
 function elegir_Formacion(formacion_Id, formacion_Equipo) {
@@ -296,6 +431,8 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     let boton_Empezar_Block = document.getElementById('boton_Empezar_Block');
     let nombre_Equipo_Local_Block = document.getElementById('nombre_Equipo_Local_Let');
     let nombre_Equipo_Visitante_Block = document.getElementById('nombre_Equipo_Visitante_Let');
+    let selector_Idioma = document.getElementById('selector_Idioma');
+    let idioma_Elegido = document.getElementById('idioma_Elegido');
     const posicionesLocalComparacion = [...posicionesLocal]; //Es una mouske herramientas que nos servira mas tarde 
     const posicionesVisitanteComparacion = [...posicionesVisitante]; //Es una mouske herramientas que nos servira mas tarde 
     let boton_Ver_Historial_Block = document.getElementById('boton_Ver_Historial_Block');
@@ -328,6 +465,10 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     boton_Borrar_Historial_Block.innerHTML = ``;
 
     boton_Ver_Historial_Block.innerHTML = ``;
+
+    selector_Idioma.innerHTML = ``;
+
+    idioma_Elegido.innerHTML = ``;
 
     // Pongo en verde el input del jugador que va al saque y todo el resto en rojo
 

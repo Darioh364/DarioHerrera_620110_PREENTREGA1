@@ -33,29 +33,6 @@ let elementos_Pagina = elementos_Id.map(function(id) {
 
 
 //________________________________________________________________________________________________________________
-//Elementos del DOM
-//Cargo el selector con la lista de idioma
-let idioma_Elegido = document.querySelector('#idioma_Elegido');
-
-const url = 'https://text-translator2.p.rapidapi.com/getLanguages';
-const options = {
-    method: 'GET',
-	headers: {
-		'x-rapidapi-key': '3ddf2e1860mshcf816e06e72ca7ep1d6231jsn3d1e2ad14d05',
-		'x-rapidapi-host': 'text-translator2.p.rapidapi.com'
-	}
-};
-
-fetch(url, options)
-    .then(res => res.json())
-    .then(objeto => {
-        let languages = objeto.data.languages;
-        //codigo necesario para cargar el select
-        languages.forEach(e => {
-            idioma_Elegido.innerHTML += `<option value="${e.code}">${e.name}</option>`;
-        })
-    })
-    .catch(error => console.log(error));
 //_____________________________________________________________________________________________________________
 //Enviar datos
 async function traducir_Elemento_Especifico (idioma_Elegido, texto){
@@ -84,7 +61,6 @@ async function traducir_Elemento_Especifico (idioma_Elegido, texto){
             array_Traducido(texto_Traducido);
         });
 }
-
 
 //_______________________________________________________________________________________________________________________________
 
@@ -127,24 +103,6 @@ document.getElementById('idioma_Elegido').addEventListener('change', function ()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 // Obtengo las posiciones guardadas en el .json
 fetch('data/equipos_1.json')
@@ -161,11 +119,11 @@ fetch('data/equipos_1.json')
 // Función para mostrar instrucciones
 function mostrarInstrucciones() {
     Swal.fire({
-        title: "<strong><u>Bienvenido a tu planillero de voley</u></strong>",
+        title: "<h4><strong>Bienvenido a tu planillero de voley</strong></h4>",
         html: `
                     <div id="instrucciones" class="text-start">
-                    <h3 class="card-subtitle mb-2 text-muted">Instrucciones de Uso (Por favor leer con atención para su
-                        correcto funcionamiento)</h3>
+                    <h5 class="card-subtitle mb-2 text-muted">Instrucciones de Uso (Por favor leer con atención para su
+                        correcto funcionamiento)</h5>
                     <p><strong>1.</strong> Ingresar los números de los jugadores y el nombre de cada equipo al inicio
                         del partido (Locales y visitantes).</p>
                     <p><strong>2.</strong> Luego, presionar "Guardar" en ambos.</p>
@@ -456,11 +414,11 @@ document.getElementById('boton_Empezar').addEventListener('click', function () {
     boton_Empezar_Block.innerHTML = ``;
 
     nombre_Equipo_Local_Block.innerHTML = `
-        <h6>${equipoLocal}</h6>
+        <h6 id="nombre_Equipo_Local_Let" class="m-0">${equipoLocal}</h6>
     `;
 
     nombre_Equipo_Visitante_Block.innerHTML = `
-        <h6>${equipoVisitante}</h6>
+        <h6 id="nombre_Equipo_Visitante_Let" class="m-0">${equipoVisitante}</h6>
     `;
     boton_Borrar_Historial_Block.innerHTML = ``;
 

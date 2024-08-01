@@ -1,43 +1,81 @@
+/* Estilo general del cuerpo */
 body {
-    background-color: #EF9A9A;
+    background-color: #f0f2f5;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.puntaje {
-    background-color: #FFEBEE;
-    /* Color de fondo */
-    border-radius: 15px;
-    /* Borde redondeado */
-    padding: 10px;
-    /* Espaciado interno */
-    border: 1px solid #050505;
-    /* Borde de color gris claro */
-}
-
-.equipo {
-    background-color: #FFEBEE;
-    /* Color de fondo */
-    border-radius: 15px;
-    /* Borde redondeado */
-    padding: 1px;
-    /* Espaciado interno */
-    border: 1px solid #050505;
-    /* Borde de color gris claro */
-}
-
+/* Contenedor principal */
 .container {
-    background-color: #FFCDD2;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 1000px;
 }
 
-.red-bg {
-    background-color: rgb(222, 80, 80) !important;
+/* Estilo de los cuadros de puntaje */
+.puntaje {
+    background-color: #ffebee;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
-.green-bg {
-    background-color: rgb(75, 223, 75) !important;
+/* Estilo de los cuadros de equipo */
+.equipo {
+    background-color: #ffebee;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+#nombre_Equipo_Local_Let, #nombre_Equipo_Visitante_Let{
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 650; 
+    font-style: normal;
+}
+#titulo_Posiciones_1, #titulo_Posiciones_2{
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600; 
+    font-style: normal;
+}
 
-/* styles.css */
+/* Botones */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+}
+
+#msj_Centro{
+font-size: 1.4rem;
+margin: 0 !important;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Cuadro de diálogo */
 .dialog-overlay {
     display: none;
     position: fixed;
@@ -54,9 +92,11 @@ body {
 .dialog-box {
     background-color: white;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    width: 90%;
+    max-width: 400px;
 }
 
 .dialog-box h2 {
@@ -64,24 +104,88 @@ body {
 }
 
 .dialog-box button {
-    padding: 10px 20px;
     margin-top: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
 }
 
-.dialog-box button:hover {
-    background-color: #0056b3;
-}
-
-/*Agrega una barra de desplazamiento vertical cuando sea necesario para visualizar de forma correcta el historial */
-#historialContenido {
+#historialContenido, #instrucciones_Box {
     max-height: 300px;
     overflow-y: auto;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
-#instrucciones_Box {
-    overflow-y: auto;
+
+/* Ajuste de posiciones de equipo */
+.equipo .posiciones {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.equipo .posiciones div {
+    background-color: #ffebee;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+}
+.red-bg {
+    background-color: rgb(222, 80, 80) !important;
+}
+
+.green-bg {
+    background-color: rgb(75, 223, 75) !important;
+}
+
+/* Encabezado */
+h1 {
+    text-align: center;
+    font-size: 2em;
+    color: #333333;
+}
+
+/* Contenedor de la interfaz principal */
+.main-interface {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-interface > div {
+    width: 45%;
+}
+
+#instrucciones_Box, #historialContenido {
+    text-align: left;
+}
+
+/* Selector de idioma */
+.language-selector {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.language-selector select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Botones de iniciar y resetear */
+button#start {
+    background-color: #28a745;
+}
+
+button#reset {
+    background-color: #dc3545;
+}
+
+button#start:hover {
+    background-color: #218838;
+}
+
+button#reset:hover {
+    background-color: #c82333;
 }

@@ -1,5 +1,5 @@
-/* Estilo general del cuerpo */
-body {
+  /* Estilo general del cuerpo */
+  body {
     background-color: #f0f2f5;
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -143,7 +143,7 @@ button:hover {
 /* Encabezado */
 h1 {
     text-align: center;
-    font-size: 2em;
+    font-size: 2rem;
     color: #333333;
 }
 
@@ -188,4 +188,29 @@ button#start:hover {
 
 button#reset:hover {
     background-color: #c82333;
+}
+/* Ajustes de responsive para mobile */
+@media (max-width: 575.98px) {
+h1{
+    font-size: 1.1rem;
+    color: #333333;
+    text-align: center;
+}
+#nombre_Equipo_Local_Let, #nombre_Equipo_Visitante_Let {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+#titulo_Posiciones_1, #titulo_Posiciones_2{
+    font-size: 0.7rem;
+    text-align: center;
+    width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
+}
+#boton_Guardar_1, #boton_Guardar_2{
+    font-size: 0.9rem; /* Aumenta el tamaño de la fuente según necesites */
+    padding: 0.1rem 0.2rem; /* Ajusta el padding para que el botón sea más pequeño */
+}
+#boton_Ver_Instrucciones, #boton_Ver_Historial_Block{
+    font-size: 0.9rem; /* Aumenta el tamaño de la fuente según necesites */
+    padding: 0.1rem 0.2rem; /* Ajusta el padding para que el botón sea más pequeño */
+}
 }

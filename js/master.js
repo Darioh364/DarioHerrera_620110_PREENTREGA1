@@ -19,7 +19,7 @@ let i = 0;
 // Cargo un array con los textos de los elementos por si se necesitan despues para traducir la pagina
 const elementos_Id = [
     "titulo_Pagina_1","titulo_Pagina_2", "selector_Idioma", "nombre_Equipo_Local_Let", "nombre_Equipo_Visitante_Let","puntaje", "boton_Ver_Instrucciones", "boton_Ver_Historial", "boton_Borrar_Historial", "puntaje_Local", "puntaje_Visitante", 
-    "boton_Saque_Local", "msj_Centro", "boton_Saque_Visitante", "boton_Empezar", "guardarLocal", "guardarVisitante", "boton_Guardar_1", "boton_Guardar_2", "titulo_Posiciones_1", "titulo_Posiciones_2"
+    "boton_Saque_Local", "msj_Centro", "boton_Saque_Visitante", "boton_Empezar", "guardarLocal", "guardarVisitante", "boton_Guardar_1", "boton_Guardar_2", "titulo_Posiciones_1", "titulo_Posiciones_2", "basic-addon1_1", "basic-addon1_2"
 ];
 //Array para los textos
 let elementos_Pagina = elementos_Id.map(function(id) {
@@ -29,8 +29,6 @@ let elementos_Pagina = elementos_Id.map(function(id) {
         i++; // Incrementa el índice
     }
 })
-
-
 
 //________________________________________________________________________________________________________________
 //_____________________________________________________________________________________________________________
@@ -48,7 +46,7 @@ async function traducir_Elemento_Especifico (idioma_Elegido, texto){
         const options_2 = {
             method: 'POST',
             headers: {
-                'x-rapidapi-key': '3ddf2e1860mshcf816e06e72ca7ep1d6231jsn3d1e2ad14d05',
+                'x-rapidapi-key': '41b95aeff4msh38ac329f88b0b54p1a695cjsn4208d29f89f8',
                 'x-rapidapi-host': 'text-translator2.p.rapidapi.com'
             },
             body: data
@@ -63,19 +61,42 @@ async function traducir_Elemento_Especifico (idioma_Elegido, texto){
 }
 
 //_______________________________________________________________________________________________________________________________
+// FUuncion de Loader
+function showLoader() {
+    return Swal.fire({
+        title: 'Cargando...',
+        html: 'Por favor, espera.',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading(); // Muestra el spinner de carga
+        }
+    });
+}
 
 
 async function traducir_Html(idioma_Elegido) {
-    for (let elemento of array_De_Texto) {
-        let texto = elemento; 
-        await traducir_Elemento_Especifico(idioma_Elegido, texto);
-        // Llamo a la función para que cambie el texto del html
+    const loader = showLoader();
+    try {
+        for (let elemento of array_De_Texto) {
+            let texto = elemento; 
+            await traducir_Elemento_Especifico(idioma_Elegido, texto);
+            // Llamo a la función para que cambie el texto del html
+        }
+        contador_Idioma ++;
+        idioma_Aux = idioma_Elegido;
+        imprimir_Html_Traducido(array_Texto_2);
+        array_Texto_2 = [];
+        // Cerrar el loader
+        loader.close(); 
+        // Mostrar un mensaje de éxito
+        Swal.fire('¡Éxito!', 'Se tradujo la pagina.', 'success');
+    } catch (error) {
+        // Manejar errores
+        loader.close(); // Cerrar el loader en caso de error
+        Swal.fire('Error', 'Hubo un problema al realizar la operación.', 'error')
     }
-    contador_Idioma ++;
-    idioma_Aux = idioma_Elegido;
-    imprimir_Html_Traducido(array_Texto_2);
-    console.log(array_Texto_2)
-    array_Texto_2 = [];
 }
 
 async function array_Traducido(texto_Traducido){
@@ -98,9 +119,6 @@ document.getElementById('idioma_Elegido').addEventListener('change', function ()
     let idioma_Seleccionado = this.value;
     traducir_Html(idioma_Seleccionado);
 })
-
-
-
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------

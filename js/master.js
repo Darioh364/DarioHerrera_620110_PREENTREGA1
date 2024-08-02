@@ -1,3 +1,4 @@
+// Declaracion de variables
 let equipoLocal = "";
 let equipoVisitante = "";
 let primer_saque = 0;
@@ -15,6 +16,7 @@ let banderaVisitante = 0;
 let idioma_Aux = 0;
 let contador_Idioma = 0;
 let i = 0;
+let error_Posiciones = 0;
 //_________________________________________________________________________________________________________________________________________
 // Cargo un array con los textos de los elementos por si se necesitan despues para traducir la pagina
 const elementos_Id = [
@@ -29,10 +31,16 @@ let elementos_Pagina = elementos_Id.map(function(id) {
         i++; // Incrementa el índice
     }
 })
+//___________________________________________________________Interaccion con los servidores_____________________________________________________________-
+// Obtengo las posiciones guardadas en el .json, y guardo la informacion por si es necesaria
+fetch('data/equipos.json')
+.then(response => response.json())
+.then(data_Equipos1 => {
+    arraysDeFormaciones = data_Equipos1.map(formacion => Object.values(formacion));
+})
+.catch(error => error_Posiciones = 1)
 
-//________________________________________________________________________________________________________________
-//_____________________________________________________________________________________________________________
-//Enviar datos
+//Funcion para enviar datos a la API
 async function traducir_Elemento_Especifico (idioma_Elegido, texto){
     if (contador_Idioma == 0){
         idioma_Aux = "es";
@@ -59,81 +67,7 @@ async function traducir_Elemento_Especifico (idioma_Elegido, texto){
             array_Traducido(texto_Traducido);
         });
 }
-
-//_______________________________________________________________________________________________________________________________
-// FUuncion de Loader
-function showLoader() {
-    return Swal.fire({
-        title: 'Cargando...',
-        html: 'Por favor, espera.',
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-            Swal.showLoading(); // Muestra el spinner de carga
-        }
-    });
-}
-
-
-async function traducir_Html(idioma_Elegido) {
-    const loader = showLoader();
-    try {
-        for (let elemento of array_De_Texto) {
-            let texto = elemento; 
-            await traducir_Elemento_Especifico(idioma_Elegido, texto);
-            // Llamo a la función para que cambie el texto del html
-        }
-        contador_Idioma ++;
-        idioma_Aux = idioma_Elegido;
-        imprimir_Html_Traducido(array_Texto_2);
-        array_Texto_2 = [];
-        // Cerrar el loader
-        loader.close(); 
-        // Mostrar un mensaje de éxito
-        Swal.fire('¡Éxito!', 'Se tradujo la pagina.', 'success');
-    } catch (error) {
-        // Manejar errores
-        loader.close(); // Cerrar el loader en caso de error
-        Swal.fire('Error', 'Hubo un problema al realizar la operación.', 'error')
-    }
-}
-
-async function array_Traducido(texto_Traducido){
-        let element = texto_Traducido; // Obtiene el elemento por ID
-        if (element) { // Verifica que el elemento exista
-            array_Texto_2.push(element); // Agrega el texto del elemento al array
-        }
-}
-
-function imprimir_Html_Traducido(array_Texto_2){
-    elementos_Id.forEach(function(id, index) {
-        if (index < array_Texto_2.length) {
-            let texto_Cambiado = array_Texto_2[index]; // Accede al elemento del array usando el índice
-            document.getElementById(id).innerText = texto_Cambiado; // Cambia el texto del elemento
-        }
-    })
-}
-
-document.getElementById('idioma_Elegido').addEventListener('change', function () {
-    let idioma_Seleccionado = this.value;
-    traducir_Html(idioma_Seleccionado);
-})
-
-
-//--------------------------------------------------------------------------------------------------------------------------------------------------
-// Obtengo las posiciones guardadas en el .json
-fetch('data/equipos_1.json')
-    .then(response => response.json())
-    .then(data_Equipos1 => {
-        // Process the data
-        arraysDeFormaciones = data_Equipos1.map(formacion => Object.values(formacion));
-    })
-    .catch(error => console.error('Error fetching the JSON data:', error));
-
-
-
-// Funciones para modificar el DOM:
+//________________________________________________ Funciones para modificar el DOM:__________________________________________________________________-
 // Función para mostrar instrucciones
 function mostrarInstrucciones() {
     Swal.fire({
@@ -209,8 +143,20 @@ function mostrarHistorial() {
         document.getElementById('dialogOverlay').style.display = 'none';
     });
 }
-//____________________________________________________________________________________________________________________________________________________
-// Funciones para la logica del programa:
+// Funcion de Loader
+function showLoader() {
+    return Swal.fire({
+        title: 'Cargando...',
+        html: 'Por favor, espera.',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading(); // Muestra el spinner de carga
+        }
+    });
+}
+//___________________________________________________Funciones para la logica del programa:______________________________________________________________
 //Funcion para obtener el historial de partidos
 function obtenerHistorialPartidos() {
     let historial = [];
@@ -295,9 +241,17 @@ function prueba(equipo) {
     return nombreEquipo;
     return posiciones;
 }
-//____________________________________________________________________________________________________________________________________________________
-// Botones para de la pantalla principal:
-// Obtengo los Datos del equipo Local
+// Funcion para ver si se cargan posiciones en el equipo local o en el visitante
+function posiciones_Guardadas (equipo, event) {
+    if (error_Posiciones == 1){
+        Swal.fire('Error', 'Esta funcion no esta disponible.', 'error') // Mensaje de error por si no se pudo cargar las posiciones previas
+    }
+    const formacion = event.target.closest('li'); // Me sirve para ubicar en que Elelemto "li" se hizo click
+    if (formacion) {
+        elegir_Formacion(formacion.id, equipo);
+    }
+}
+
 //Funcion para cargar automaticamente las posiciones
 function cargar_Formacion(i, formacion_Equipo) {
     if (arraysDeFormaciones.length > 0) {
@@ -311,7 +265,7 @@ function cargar_Formacion(i, formacion_Equipo) {
         document.getElementById(`pos_${formacion_Equipo}_5`).value = valor[5];
     }
 }
-// Funcion para elegir la formacion a cargar
+// Funcion para elegir alguna formacion ya guardada
 function elegir_Formacion(formacion_Id, formacion_Equipo) {
     switch (formacion_Id) {
         case `guardado_${formacion_Equipo}_1`:
@@ -331,30 +285,62 @@ function elegir_Formacion(formacion_Id, formacion_Equipo) {
             break;
         case `guardado_${formacion_Equipo}_6`:
             cargar_Formacion(5, formacion_Equipo);
-            break;
+        break;
+    }
+}
+//Funciones para la traduccion del html
+async function traducir_Html(idioma_Elegido) {
+    const loader = showLoader();
+    try {
+        for (let elemento of array_De_Texto) {
+            let texto = elemento; 
+            await traducir_Elemento_Especifico(idioma_Elegido, texto);
+            // Llamo a la función para que cambie el texto del html
+        }
+        contador_Idioma ++;
+        idioma_Aux = idioma_Elegido;
+        imprimir_Html_Traducido(array_Texto_2);
+        array_Texto_2 = [];
+        // Cerrar el loader
+        loader.close(); 
+        // Mostrar un mensaje de éxito
+        Swal.fire('¡Éxito!', 'Se tradujo la pagina.', 'success');
+    } catch (error) {
+        // Manejar errores
+        loader.close(); // Cerrar el loader en caso de error
+        Swal.fire('Error', 'Hubo un problema al realizar la operación.', 'error')
     }
 }
 
-// Creo los eventos para esperar y ver si se utilizan las rotaciones previas guardadas
+async function array_Traducido(texto_Traducido){
+    let element = texto_Traducido; // Obtiene el elemento por ID
+    if (element) { // Verifica que el elemento exista
+        array_Texto_2.push(element); // Agrega el texto del elemento al array
+    }
+}
 
+function imprimir_Html_Traducido(array_Texto_2){
+    elementos_Id.forEach(function(id, index) {
+        if (index < array_Texto_2.length) {
+            let texto_Cambiado = array_Texto_2[index]; // Accede al elemento del array usando el índice
+            document.getElementById(id).innerText = texto_Cambiado; // Cambia el texto del elemento
+        }
+    })
+}
+
+//_______________________________________________________Botones para de la pantalla principal:__________________________________________________________
+// Creo los eventos para esperar y ver si se utilizan las rotaciones previas guardadas
 const dropdown_Local = document.getElementById('guardado_Local');
 dropdown_Local.addEventListener('click', (event) => {
-    const formacion = event.target.closest('li'); // Me sirve para ubicar en que Elelemto "li" se hizo click
-    if (formacion) {
-        let formacion_Equipo_Local = "Local";
-        elegir_Formacion(formacion.id, formacion_Equipo_Local);
-    }
+    let guardado_Equipo = "Local";
+    posiciones_Guardadas(guardado_Equipo, event)
 });
 
 const dropdown_Visitante = document.getElementById('guardado_Visitante');
 dropdown_Visitante.addEventListener('click', (event) => {
-    const formacion = event.target.closest('li'); // Me sirve para ubicar en que Elelemto "li" se hizo click
-    if (formacion) {
-        let formacion_Equipo_Visitante = "Visitante";
-        elegir_Formacion(formacion.id, formacion_Equipo_Visitante);
-    }
+    let guardado_Equipo = "Visitante";
+    posiciones_Guardadas(guardado_Equipo, event)
 });
-
 // Obtengo los Datos del equipo Local
 document.getElementById('guardarLocal').addEventListener('click', function () {
     let equipo = 'Local';
@@ -376,7 +362,6 @@ document.getElementById('boton_Saque_Local').addEventListener('click', function 
     botonSaqueLocal.classList.toggle('btn-secondary');
     botonSaqueLocal.classList.toggle('btn-success');
     primer_saque = 1;
-    console.log(primer_saque);
 });
 
 document.getElementById('boton_Saque_Visitante').addEventListener('click', function () {
@@ -384,8 +369,12 @@ document.getElementById('boton_Saque_Visitante').addEventListener('click', funct
     botonSaqueVisitante.classList.toggle('btn-secondary');
     botonSaqueVisitante.classList.toggle('btn-success');
     primer_saque = 2;
-    console.log(primer_saque);
 });
+// Evento para el selector de idioma
+document.getElementById('idioma_Elegido').addEventListener('change', function () {
+    let idioma_Seleccionado = this.value;
+    traducir_Html(idioma_Seleccionado);
+})
 //______________________________________________________________________________________________________________________________
 // Boton para ver instrucciones
 document.getElementById('boton_Ver_Instrucciones').addEventListener('click', function () {
@@ -399,6 +388,7 @@ document.getElementById('boton_Ver_Historial').addEventListener('click', functio
 document.getElementById('boton_Borrar_Historial').addEventListener('click', function () {
     borra_Historial();
 });
+
 // Boton para empezar el partido
 document.getElementById('boton_Empezar').addEventListener('click', function () {
     let contenido_Msj_Centro = document.getElementById('msj_Centro');
